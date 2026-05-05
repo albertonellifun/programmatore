@@ -237,7 +237,6 @@
     object-fit: cover;
     display: block;
     transition: opacity 0.3s;
-    xxxfilter: saturate(0.7) brightness(0.75);
   }
 
   /* Gradient overlay dal basso: sfuma il banner nel colore della card */
@@ -273,16 +272,12 @@
   .event.bonus .card-banner-wrap::before {
     background: linear-gradient(transparent, #0a1a0a);
   }
-  .event.bonus .card-banner-wrap img {
-    xxxfilter: saturate(0.6) brightness(0.7) hue-rotate(80deg);
-  }
-
+  
   .task {
     background: #12121f;
     border: 1px solid var(--border);
     border-left: 3px solid var(--blue);
-	xxxpadding: 8px 10px;					  
-    margin-bottom: 8px;
+	margin-bottom: 8px;
     cursor: pointer;
     border-radius: 2px;
     transition: border-color 0.2s, background 0.2s, transform 0.1s;
@@ -367,10 +362,8 @@
     background: #1a0a0f;
     border: 1px solid #2a0a14;
     border-left: 3px solid var(--red);
-    xxxpadding: 8px 10px;
     margin-bottom: 8px;
     border-radius: 2px;
-    xxxanimation: slideIn 0.3s ease;
     overflow: hidden;
   }
 
@@ -449,7 +442,6 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    xxxfilter: saturate(0.75) brightness(0.8);
     transition: opacity 0.4s;
   }
   
@@ -963,105 +955,108 @@ const TASKS = [
 
 // ── EVENTS — aggiungi il campo image: 'nomefile.jpg' ──
 const EVENTS = [
-  { name: "Bimbo con febbre",                                               stress: 5,   quality: -2,  image: "e_bimbo_febbre.jpg" },
-  { name: "Gatto vomita sul PC aziendale",                                  stress: 10,  quality: -5,  image: "e_gatto_vomita.jpg" },
-  { name: "Windows Update obbligatorio",                                    stress: 3,   quality: -3,  image: "e_windows_update.jpg" },
-  { name: "Microsoft Antivirus ti blocca il PC",                            stress: 6,   quality: -3,  image: "e_antivirus.jpg" },
-  { name: "Windows estrae a sorte un problema sconosciuto",                 stress: 9,   quality: -4,  image: "e_windows.jpg" },
-  { name: "Le carte Nexi di test non funzionano",                           stress: 12,  quality: -2,  image: "e_nexi.jpg" },
-  { name: "Nuova VPN inesorabilmente down",                                 stress: 15,  quality: -8,  image: "e_vpn_down.jpg" },
-  { name: "Pacco Amazon perso dal corriere",                                stress: 8,   quality: -1,  image: "e_amazon_perso.jpg" },
-  { name: "Pacco AliExpress preso a calci dal corriere",                    stress: 8,   quality: -1,  image: "e_ali_calci.jpg" },
-  { name: "Attacco di dissenteria quando sei in ufficio",                   stress: 15,  quality: -8,  image: "e_dissenteria.jpg" },
-  { name: "BitLocker ko e addio al contenuto dell'hard disk",               stress: 8,   quality: -3,  image: "e_bitlocker.jpg" },
-  { name: "Helpdesk indiano ti blocca definitivamente il PC",               stress: 10,  quality: -2,  image: "e_india.jpg" },
-  { name: "Vocale delirante di 7 minuti da moglie",                         stress: 15,  quality: -8,  image: "e_vocale_moglie.jpg" },
-  { name: "Moglie che urla via WhatsApp cose incomprensibili",              stress: 13,  quality: -10, image: "e_moglie_whatsapp.jpg" },
-  { name: "Telefonata da call-center albanese ti attiva abbonamento",       stress: 4,   quality: -4,  image: "e_callcenter.jpg" },
-  { name: "Cane del vicino ti morde il piede",                              stress: 8,   quality: -3,  image: "e_cane_morde.jpg" },
-  { name: "Jessico Calcetto annulla la partita del giovedi",                stress: 20,  quality: -10, image: "e_calcetto.jpg" },
-  { name: "Vanesso Padel annulla gli incontri del martedi sera",            stress: 16,  quality: -14, image: "e_padel.jpg" },
-  { name: "Tatiano Palestra annulla gli allenamenti del mercoledi",         stress: 18,  quality: -12, image: "e_palestra.jpg" },
-  { name: "Ti sei dimenticato del nostro anniversario...",                  stress: 18,  quality: -7,  image: "e_anniversario.jpg" },
-  { name: "68 notifiche dal gruppo mamme di scuola",                        stress: 11,  quality: -6,  image: "e_gruppo_mamme.jpg" },
-  { name: "Malware apre 87 popup e Windows si blocca",                      stress: 8,   quality: -3,  image: "e_malware.jpg" },
-  { name: "INPS ha perso 6 mesi di contributi",                             stress: 14,  quality: -6,  image: "e_inps.jpg" },
-  { name: "Abbonamento Netflix farlocco sgamato dalla Guardia di Finanza",  stress: 30,  quality: -15, image: "e_netflix_finanza.jpg" },
-  { name: "Mal di schiena improvviso ti mette KO",                          stress: 11,  quality: -5,  image: "e_schiena.jpg" },
-  { name: "Auto aziendale ti lascia a piedi nel mezzo del nulla",           stress: 10,  quality: -5,  image: "e_auto_aziendale.jpg" },
-  { name: "Cellulare aziendale cade nel WC",                                stress: 20,  quality: -12, image: "e_cellulare_wc.jpg" },
-  { name: "Macchinetta del caffè prende fuoco al 13esimo caffè",            stress: 10,  quality: -4,  image: "e_macchinetta.jpg" },
-  { name: "Idraulico vuole essere pagato in natura",                        stress: 25,  quality: -8,  image: "e_idraulico.jpg" },
-  { name: "Elettricista vuole essere pagato in nero",                       stress: 15,  quality: -4,  image: "e_elettricista.jpg" },
-  { name: "GTA 5 ha smesso di funzionare",                                  stress: 6,   quality: 10,  image: "e_gta5.jpg" },
-  { name: "Caffè cade copiosamente sul notebook aziendale",                 stress: 9,   quality: -8,  image: "e_caffe_notebook.jpg" },
-  { name: "Collega gnocca vuole parlarti in privato: grossi guai in vista", stress: 20,  quality: -10, image: "e_collega_gnocca.jpg" },
-  { name: "Email di phishing ti svuota il conto corrente bancario",         stress: 8,   quality: -2,  image: "e_phishing.jpg" },
-  { name: "Dimentichi la webcam accesa mentre eri in mutande",              stress: 12,  quality: -9,  image: "e_webcam_mutande.jpg" },
-  { name: "Vigili urbani ti caricano l'auto anche se parcheggiata bene",    stress: 12,  quality: -2,  image: "e_vigili.jpg" },
-  { name: "Parcometro scaduto e 39 euro di multa",                          stress: 10,  quality: -2,  image: "e_multa.jpg" },
-  { name: "Riunione in presenza (ed interlocutore con fiatella letale)",    stress: 10,  quality: -3,  image: "e_fiatella.jpg" },
-  { name: "Peperonata del giorno prima si ripropone durante colloquio",     stress: 8,   quality: -8,  image: "e_peperonata.jpg" },
-  { name: "Collega burlone ti imposta il mouse da mancini",                 stress: 4,   quality: -2,  image: "e_mouse_mancini.jpg" },
-  { name: "Authenticator urgente ma il cellulare è scarico",                stress: 7,   quality: -3,  image: "e_authenticator.jpg" },
-  { name: "Spazio su disco esaurito, il PC si blocca",                      stress: 11,  quality: -3,  image: "e_disco_pieno.jpg" },
-  { name: "Stampante di rete emette rumori sinistri ma non stampa",         stress: 9,   quality: -2,  image: "e_stampante.jpg" },
-  { name: "Toner giallo esaurito e stampa inesorabilmente bloccata",        stress: 4,   quality: -7,  image: "e_toner.jpg" },
-  { name: "Testimoni di Geova irrompono in casa tua",                       stress: 15,  quality: -8,  image: "e_testimoni.jpg" },
-  { name: "Finiti i crediti AI a metà sviluppo",                            stress: 11,  quality: -10, image: "e_ai_crediti.jpg" },
-  { name: "PIN sblocco dimenticato dopo serata altamente alcolica",         stress: 6,   quality: -4,  image: "e_pin_bagordi.jpg" },
-  { name: "Riconoscimento facciale si rifiuta di credere che sei tu",       stress: 4,   quality: -2,  image: "e_face_id.jpg" },
-  { name: "Il cliente ti richiede in presenza ma tu sei in Croazia",        stress: -5,  quality: -5,  image: "e_croazia.jpg" },
-  { name: "Collega burlone ti gira lo schermo",                             stress: 7,   quality: -1,  image: "e_schermo_girato.jpg" },
-  { name: "StackOverflow down in manutenzione",                             stress: 5,   quality: -4,  image: "e_stackoverflow.jpg" },
-  { name: "YouTube oggi non vuole proprio funzionare",                      stress: 4,   quality: 4,   image: "e_youtube.jpg" },
-  { name: "Azienda ti sgama in finta malattia",                             stress: 20,  quality: -7,  image: "e_finta_malattia.jpg" },
-  { name: "Ti rechi in ufficio il giorno della chiusura aziendale",         stress: 8,   quality: -5,  image: "e_chiusura.jpg" },
-  { name: "Google Chrome blocca l'estensione CORS",                         stress: 6,   quality: -3,  image: "e_cors.jpg" },
-  { name: "Email apericena con gruppo liceo",                               stress: -6,  quality: -4,  image: "e_apericena.jpg" },
-  { name: "Nuova collega gnocca nel team (ma tu lavori da remoto)",         stress: -5,  quality: -8,  image: "e_collega_remoto.jpg" },
-  { name: "Ex-azienda non ti paga il TFR",                                  stress: 14,  quality: -4,  image: "e_tfr.jpg" },
-  { name: "Azienda ti dimezza i buoni pasto causa smart working",           stress: 8,   quality: -5,  image: "e_buoni_pasto.jpg" },
-  { name: "Teams oggi non funziona",                                        stress: 7,   quality: -2,  image: "e_teams_ko.jpg" },
-  { name: "Ctrl-C Ctrl-V ha smesso di funzionare",                          stress: 6,   quality: -6,  image: "e_ctrlc.jpg" },
-  { name: "Internet Explorer crash inatteso",                               stress: 3,   quality: -2,  image: "e_ie_crash.jpg" },
-  { name: "Cambio password obbligatorio",                                   stress: 2,   quality: -1,  image: "e_password.jpg" },
-  { name: "Windows Update incasina di nuovo la scheda audio",               stress: 6,   quality: -3,  image: "e_audio_ko.jpg" },
-  { name: "Hai vinto una trasferta a Domodossola",                          stress: 18,  quality: -10, image: "e_domodossola.jpg" },
-  { name: "Promozione inaspettata dopo 16 anni da Junior!",                 stress: -30, quality: 20,  image: "e_promozione.jpg" },
-  { name: "Hai donato il sangue e puoi restare a casa!",                    stress: -15, quality: 5,   image: "e_sangue.jpg" },
-  { name: "Oggi è San Pancrazio: 4 ore di permesso obbligatorio!",          stress: -10, quality: 2,   image: "e_san_pancrazio.jpg" },
-  { name: "Oggi è San Cremenzio patrono degli sfruttati!",                  stress: -10, quality: 2,   image: "e_san_cremenzio.jpg" },
-  { name: "Collega senior 78enne finalmente va in pensione!",               stress: -15, quality: 4,   image: "e_pensione.jpg" },
-  { name: "Collega festeggia con dolcetti fatti in casa a forma di cacca!", stress: -12, quality: 2,   image: "e_dolcetti.jpg" },
-  { name: "Benefit Aziendale: ricevi un buono da 10€!",                     stress: -10, quality: 3,   image: "e_buono10.jpg" },
-  { name: "Benefit Aziendale: ricevi un buono da 50€!",                     stress: -20, quality: 4,   image: "e_buono50.jpg" },
-  { name: "Benefit Aziendale: ricevi un buono da 150€!",                    stress: -30, quality: 5,   image: "e_buono150.jpg" },
-  { name: "Bonus Renzi da 47€ di nuovo in busta paga!",                     stress: -10, quality: 1,   image: "e_bonus_renzi.jpg" },
-  { name: "Uscita anticipata alle 17:00!",                                  stress: -20, quality: 3,   image: "e_uscita_anticipata.jpg" },
-  { name: "Dimissioni del collega bravo",                                   stress: 13,  quality: -8,  image: "e_dimissioni.jpg" },
-  { name: "Rotte chiuse verso i server",                                    stress: 5,   quality: -2,  image: "e_rotte_server.jpg" },
-  { name: "Dimenticato microfono aperto mentre canti a squarciagola",       stress: 14,  quality: -6,  image: "e_mic_acceso.jpg" },
-  { name: "Windows Explorer ha smesso di funzionare",                       stress: 4,   quality: -1,  image: "e_explorer_crash.jpg" },
-  { name: "Router con segnale Wi-fi disturbato",                            stress: 13,  quality: -3,  image: "e_wifi.jpg" },
-  { name: "Annullate ferie per problemi critici in produzione",             stress: 14,  quality: -6,  image: "e_ferie_annullate.jpg" },
-  { name: "Pipeline bloccata in Produzione",                                stress: 20,  quality: -10, image: "e_pipeline.jpg" },
-  { name: "Buttato dentro una call a sorpresa",                             stress: 18,  quality: -3,  image: "e_call_sorpresa.jpg" },
-  { name: "Pacco Shein di 4 taglie più piccolo e senza rimborso",           stress: 8,   quality: -1,  image: "e_shein.jpg" },
-  { name: "Yeeh! Sei il Numero Uno!",                                       stress: -20, quality: 10,  image: "e_numero_uno.jpg" },
-  { name: "Devi fare KT a nuova collega super-gnocca!",                     stress: -15, quality: 4,   image: "e_kt_gnocca.jpg" },
-  { name: "Mouse wireless ha la batteria scarica",                          stress: 5,   quality: -2,  image: "e_mouse_scarico.jpg" },
-  { name: "Cena improvvisa dai suoceri",                                    stress: 12,  quality: -2,  image: "e_suoceri.jpg" },
-  { name: "PC è fuori policy e viene bloccato immediatamente",              stress: 4,   quality: -4,  image: "e_pc_policy.jpg" },
-  { name: "Hai vinto uno sviluppetto carino",                               stress: 18,  quality: -10, image: "e_vinto_sviluppetto.jpg" },
-  { name: "Requisito finito nel dimenticatoio è diventato urgentissimo",    stress: 12,  quality: -3,  image: "e_requisito_urgente.jpg" },
-  { name: "GRM con tag non chiuso rompe tutto",                             stress: 7,   quality: -4,  image: "e_grm_tag.jpg" },
-  { name: "SOA down durante gli IT ed il cliente si incazza di brutto",     stress: 9,   quality: -2,  image: "e_soa_it.jpg" },
-  { name: "Griglia treni vuota per qualsiasi data",                         stress: 10,  quality: -5,  image: "e_treni.jpg" },
-  { name: "Popup 40enni vogliose in Team Presenting",                       stress: 17,  quality: -10, image: "e_popup_40enni.jpg" },  
-  { name: "I carnet si sono rotti in Produzione",                           stress: 10, quality: -4,  image: "e_carnet.jpg" },
-  { name: "Call alle 18:00 di venerdi prima delle ferie",                   stress: 14, quality: -4,  image: "e_call_venerdi.jpg" },
-  { name: "Rilascio anticipato di 3 giorni",                                stress: 16, quality: -18, image: "e_rilascio_anticipato.jpg" },
+  { name: "Bimbo con febbre",                                                stress: 5,   quality: -2,  image: "e_bimbo_febbre.jpg" },
+  { name: "Gatto vomita sul PC aziendale",                                   stress: 10,  quality: -5,  image: "e_gatto_vomita.jpg" },
+  { name: "Windows Update obbligatorio",                                     stress: 3,   quality: -3,  image: "e_windows_update.jpg" },
+  { name: "Microsoft Antivirus ti blocca il PC",                             stress: 6,   quality: -3,  image: "e_antivirus.jpg" },
+  { name: "Windows estrae a sorte un problema sconosciuto",                  stress: 9,   quality: -4,  image: "e_windows.jpg" },
+  { name: "Le carte Nexi di test non funzionano",                            stress: 12,  quality: -2,  image: "e_nexi.jpg" },
+  { name: "Nuova VPN inesorabilmente down",                                  stress: 15,  quality: -8,  image: "e_vpn_down.jpg" },
+  { name: "Pacco Amazon perso dal corriere",                                 stress: 8,   quality: -1,  image: "e_amazon_perso.jpg" },
+  { name: "Pacco AliExpress preso a calci dal corriere",                     stress: 8,   quality: -1,  image: "e_ali_calci.jpg" },
+  { name: "Attacco di dissenteria quando sei in ufficio",                    stress: 15,  quality: -8,  image: "e_dissenteria.jpg" },
+  { name: "BitLocker ko e addio al contenuto dell'hard disk",                stress: 8,   quality: -3,  image: "e_bitlocker.jpg" },
+  { name: "Helpdesk indiano ti blocca definitivamente il PC",                stress: 10,  quality: -2,  image: "e_india.jpg" },
+  { name: "Vocale delirante di 7 minuti da moglie",                          stress: 15,  quality: -8,  image: "e_vocale_moglie.jpg" },
+  { name: "Moglie che urla via WhatsApp cose incomprensibili",               stress: 13,  quality: -10, image: "e_moglie_whatsapp.jpg" },
+  { name: "Telefonata da call-center albanese ti attiva abbonamento",        stress: 4,   quality: -4,  image: "e_callcenter.jpg" },
+  { name: "Cane del vicino ti morde il piede",                               stress: 8,   quality: -3,  image: "e_cane_morde.jpg" },
+  { name: "Jessico Calcetto annulla la partita del giovedi",                 stress: 20,  quality: -10, image: "e_calcetto.jpg" },
+  { name: "Vanesso Padel annulla gli incontri del martedi sera",             stress: 16,  quality: -14, image: "e_padel.jpg" },
+  { name: "Tatiano Palestra annulla gli allenamenti del mercoledi",          stress: 18,  quality: -12, image: "e_palestra.jpg" },
+  { name: "Ti sei dimenticato del nostro anniversario...",                   stress: 18,  quality: -7,  image: "e_anniversario.jpg" },
+  { name: "68 notifiche dal gruppo mamme di scuola",                         stress: 11,  quality: -6,  image: "e_gruppo_mamme.jpg" },
+  { name: "Malware apre 87 popup e Windows si blocca",                       stress: 8,   quality: -3,  image: "e_malware.jpg" },
+  { name: "INPS ha perso 6 mesi di contributi",                              stress: 14,  quality: -6,  image: "e_inps.jpg" },
+  { name: "Abbonamento Netflix farlocco sgamato dalla Guardia di Finanza",   stress: 30,  quality: -15, image: "e_netflix_finanza.jpg" },
+  { name: "Mal di schiena improvviso ti mette KO",                           stress: 11,  quality: -5,  image: "e_schiena.jpg" },
+  { name: "Auto aziendale ti lascia a piedi nel mezzo del nulla",            stress: 10,  quality: -5,  image: "e_auto_aziendale.jpg" },
+  { name: "Cellulare aziendale cade nel WC",                                 stress: 20,  quality: -12, image: "e_cellulare_wc.jpg" },
+  { name: "Macchinetta del caffè prende fuoco al 13esimo caffè",             stress: 10,  quality: -4,  image: "e_macchinetta.jpg" },
+  { name: "Idraulico vuole essere pagato in natura",                         stress: 25,  quality: -8,  image: "e_idraulico.jpg" },
+  { name: "Elettricista vuole essere pagato in nero",                        stress: 15,  quality: -4,  image: "e_elettricista.jpg" },
+  { name: "GTA 5 ha smesso di funzionare",                                   stress: 6,   quality: 10,  image: "e_gta5.jpg" },
+  { name: "Caffè cade copiosamente sul notebook aziendale",                  stress: 9,   quality: -8,  image: "e_caffe_notebook.jpg" },
+  { name: "Collega gnocca vuole parlarti in privato: grossi guai in vista",  stress: 20,  quality: -10, image: "e_collega_gnocca.jpg" },
+  { name: "Email di phishing ti svuota il conto corrente bancario",          stress: 8,   quality: -2,  image: "e_phishing.jpg" },
+  { name: "Dimentichi la webcam accesa mentre eri in mutande",               stress: 12,  quality: -9,  image: "e_webcam_mutande.jpg" },
+  { name: "Vigili urbani ti caricano l'auto anche se parcheggiata bene",     stress: 12,  quality: -2,  image: "e_vigili.jpg" },
+  { name: "Parcometro scaduto e 39 euro di multa",                           stress: 10,  quality: -2,  image: "e_multa.jpg" },
+  { name: "Riunione in presenza (ed interlocutore con fiatella letale)",     stress: 10,  quality: -3,  image: "e_fiatella.jpg" },
+  { name: "Peperonata del giorno prima si ripropone durante colloquio",      stress: 8,   quality: -8,  image: "e_peperonata.jpg" },
+  { name: "Collega burlone ti imposta il mouse da mancini",                  stress: 4,   quality: -2,  image: "e_mouse_mancini.jpg" },
+  { name: "Authenticator urgente ma il cellulare è scarico",                 stress: 7,   quality: -3,  image: "e_authenticator.jpg" },
+  { name: "Spazio su disco esaurito, il PC si blocca",                       stress: 11,  quality: -3,  image: "e_disco_pieno.jpg" },
+  { name: "Stampante di rete emette rumori sinistri ma non stampa",          stress: 9,   quality: -2,  image: "e_stampante.jpg" },
+  { name: "Toner giallo esaurito e stampa inesorabilmente bloccata",         stress: 4,   quality: -7,  image: "e_toner.jpg" },
+  { name: "Testimoni di Geova irrompono in casa tua",                        stress: 15,  quality: -8,  image: "e_testimoni.jpg" },
+  { name: "Finiti i crediti AI a metà sviluppo",                             stress: 11,  quality: -10, image: "e_ai_crediti.jpg" },
+  { name: "PIN sblocco dimenticato dopo serata altamente alcolica",          stress: 6,   quality: -4,  image: "e_pin_bagordi.jpg" },
+  { name: "Riconoscimento facciale si rifiuta di credere che sei tu",        stress: 4,   quality: -2,  image: "e_face_id.jpg" },
+  { name: "Il cliente ti richiede in presenza ma tu sei in Croazia",         stress: -5,  quality: -5,  image: "e_croazia.jpg" },
+  { name: "Collega burlone ti gira lo schermo",                              stress: 7,   quality: -1,  image: "e_schermo_girato.jpg" },
+  { name: "StackOverflow down in manutenzione",                              stress: 5,   quality: -4,  image: "e_stackoverflow.jpg" },
+  { name: "YouTube oggi non vuole proprio funzionare",                       stress: 4,   quality: 4,   image: "e_youtube.jpg" },
+  { name: "Azienda ti sgama in finta malattia",                              stress: 20,  quality: -7,  image: "e_finta_malattia.jpg" },
+  { name: "Ti rechi in ufficio il giorno della chiusura aziendale",          stress: 8,   quality: -5,  image: "e_chiusura.jpg" },
+  { name: "Google Chrome blocca l'estensione CORS",                          stress: 6,   quality: -3,  image: "e_cors.jpg" },
+  { name: "Email apericena con gruppo liceo",                                stress: -6,  quality: -4,  image: "e_apericena.jpg" },
+  { name: "Nuova collega gnocca nel team (ma tu lavori da remoto)",          stress: -5,  quality: -8,  image: "e_collega_remoto.jpg" },
+  { name: "Ex-azienda non ti paga il TFR",                                   stress: 14,  quality: -4,  image: "e_tfr.jpg" },
+  { name: "Azienda ti dimezza i buoni pasto causa smart working",            stress: 8,   quality: -5,  image: "e_buoni_pasto.jpg" },
+  { name: "Teams oggi non funziona",                                         stress: 7,   quality: -2,  image: "e_teams_ko.jpg" },
+  { name: "Ctrl-C Ctrl-V ha smesso di funzionare",                           stress: 6,   quality: -6,  image: "e_ctrlc.jpg" },
+  { name: "Internet Explorer crash inatteso",                                stress: 3,   quality: -2,  image: "e_ie_crash.jpg" },
+  { name: "Cambio password obbligatorio",                                    stress: 2,   quality: -1,  image: "e_password.jpg" },
+  { name: "Windows Update incasina di nuovo la scheda audio",                stress: 6,   quality: -3,  image: "e_audio_ko.jpg" },
+  { name: "Hai vinto una trasferta a Domodossola",                           stress: 18,  quality: -10, image: "e_domodossola.jpg" },
+  { name: "Promozione inaspettata dopo 16 anni da Junior!",                  stress: -30, quality: 20,  image: "e_promozione.jpg" },
+  { name: "Hai donato il sangue e puoi restare a casa!",                     stress: -15, quality: 5,   image: "e_sangue.jpg" },
+  { name: "Oggi è San Pancrazio: 4 ore di permesso obbligatorio!",           stress: -10, quality: 2,   image: "e_san_pancrazio.jpg" },
+  { name: "Oggi è San Cremenzio patrono degli sfruttati!",                   stress: -10, quality: 2,   image: "e_san_cremenzio.jpg" },
+  { name: "Collega senior 78enne finalmente va in pensione!",                stress: -15, quality: 4,   image: "e_pensione.jpg" },
+  { name: "Collega festeggia con dolcetti fatti in casa a forma di cacca!",  stress: -12, quality: 2,   image: "e_dolcetti.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 10€!",                      stress: -10, quality: 3,   image: "e_buono10.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 50€!",                      stress: -20, quality: 4,   image: "e_buono50.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 150€!",                     stress: -30, quality: 5,   image: "e_buono150.jpg" },
+  { name: "Bonus Renzi da 47€ di nuovo in busta paga!",                      stress: -10, quality: 1,   image: "e_bonus_renzi.jpg" },
+  { name: "Uscita anticipata alle 17:00!",                                   stress: -20, quality: 3,   image: "e_uscita_anticipata.jpg" },
+  { name: "Dimissioni del collega bravo",                                    stress: 13,  quality: -8,  image: "e_dimissioni.jpg" },
+  { name: "Rotte chiuse verso i server",                                     stress: 5,   quality: -2,  image: "e_rotte_server.jpg" },
+  { name: "Dimenticato microfono aperto mentre canti a squarciagola",        stress: 14,  quality: -6,  image: "e_mic_acceso.jpg" },
+  { name: "Windows Explorer ha smesso di funzionare",                        stress: 4,   quality: -1,  image: "e_explorer_crash.jpg" },
+  { name: "Router con segnale Wi-fi disturbato",                             stress: 13,  quality: -3,  image: "e_wifi.jpg" },
+  { name: "Annullate ferie per problemi critici in produzione",              stress: 14,  quality: -6,  image: "e_ferie_annullate.jpg" },
+  { name: "Pipeline bloccata in Produzione",                                 stress: 20,  quality: -10, image: "e_pipeline.jpg" },
+  { name: "Buttato dentro una call a sorpresa",                              stress: 18,  quality: -3,  image: "e_call_sorpresa.jpg" },
+  { name: "Pacco Shein di 4 taglie più piccolo e senza rimborso",            stress: 8,   quality: -1,  image: "e_shein.jpg" },
+  { name: "Yeeh! Sei il Numero Uno!",                                        stress: -20, quality: 10,  image: "e_numero_uno.jpg" },
+  { name: "Devi fare KT a nuova collega super-gnocca!",                      stress: -15, quality: 4,   image: "e_kt_gnocca.jpg" },
+  { name: "Mouse wireless ha la batteria scarica",                           stress: 5,   quality: -2,  image: "e_mouse_scarico.jpg" },
+  { name: "Cena improvvisa dai suoceri",                                     stress: 12,  quality: -2,  image: "e_suoceri.jpg" },
+  { name: "PC è fuori policy e viene bloccato immediatamente",               stress: 4,   quality: -4,  image: "e_pc_policy.jpg" },
+  { name: "Hai vinto uno sviluppetto carino",                                stress: 18,  quality: -10, image: "e_vinto_sviluppetto.jpg" },
+  { name: "Requisito finito nel dimenticatoio è diventato urgentissimo",     stress: 12,  quality: -3,  image: "e_requisito_urgente.jpg" },
+  { name: "GRM con tag non chiuso rompe tutto",                              stress: 7,   quality: -4,  image: "e_grm_tag.jpg" },
+  { name: "SOA down durante gli IT ed il cliente si incazza di brutto",      stress: 9,   quality: -2,  image: "e_soa_it.jpg" },
+  { name: "Griglia treni vuota per qualsiasi data",                          stress: 10,  quality: -5,  image: "e_treni.jpg" },
+  { name: "Popup 40enni vogliose in Team Presenting",                        stress: 17,  quality: -10, image: "e_popup_40enni.jpg" },  
+  { name: "I carnet si sono rotti in Produzione",                            stress: 10,  quality: -4,  image: "e_carnet.jpg" },
+  { name: "Call alle 18:00 di venerdi prima delle ferie",                    stress: 14,  quality: -4,  image: "e_call_venerdi.jpg" },
+  { name: "Rilascio anticipato di 3 giorni",                                 stress: 16,  quality: -18, image: "e_rilascio_anticipato.jpg" },
+  { name: "Ti parte un bestemmione in call col cliente a microfono aperto",  stress: 18,  quality: -10, image: "e_bestemmione.jpg" },
+  { name: "L'ennesion 'Sul mio PC funziona' scatena le urla del cliente",    stress: 15,  quality: -20, image: "e_mio_pc.jpg" },
+  { name: "Un metallaro incontrato in strada ti spacca tutte le ossa - cit", stress: 20,  quality: -15, image: "e_metallaro.jpg" },
 ];
 
 // ── Helpers flash barra ──
@@ -1207,24 +1202,39 @@ function render() {
   // ── CHARGEABILITY BAR ──
   const ch = state.chargeability;
   const cf = document.getElementById('chargeFill');
-  cf.style.width      = ch + '%';
-  cf.style.background = ch > 25 ? '#00cfff' : '#ff2d55';
-  cf.style.boxShadow  = ch <= 25 ? '0 0 8px #ff2d55' : 'none';
-  document.getElementById('chargeVal').innerText = Math.round(ch);
+  if (cf) {
+	  cf.style.width      = ch + '%';
+	  cf.style.background = ch > 25 ? '#00cfff' : '#ff2d55';
+	  cf.style.boxShadow  = ch <= 25 ? '0 0 8px #ff2d55' : 'none';
+  }
+  const cv = document.getElementById('chargeVal');
+  if (cv) {
+	cv.innerText = Math.round(ch);
+  }
 
   // ── STRESS BAR ──
   const sf = document.getElementById('stressFill');
-  sf.style.width      = state.stress + '%';
-  sf.style.background = state.stress < 25 ? '#39ff14' : '#ff2d55';
-  sf.style.boxShadow  = state.stress >= 75 ? '0 0 8px #ff2d55' : 'none';
-  document.getElementById('stressVal').innerText = Math.round(state.stress);
+  if (sf) {
+	sf.style.width      = state.stress + '%';
+	sf.style.background = state.stress < 25 ? '#39ff14' : '#ff2d55';
+	sf.style.boxShadow  = state.stress >= 75 ? '0 0 8px #ff2d55' : 'none';
+  }
+  const sv = document.getElementById('stressVal');
+  if (sv) {
+	sv.innerText = Math.round(state.stress);
+  }
 
   // ── QUALITY BAR ──
   const qf = document.getElementById('qualityFill');
-  qf.style.width      = state.quality + '%';
-  qf.style.background = state.quality > 25 ? '#39ff14' : '#ff2d55';
-  qf.style.boxShadow  = state.quality <= 25 ? '0 0 8px #ff2d55' : 'none';
-  document.getElementById('qualityVal').innerText = Math.round(state.quality);
+  if (qf) {
+	qf.style.width      = state.quality + '%';
+	qf.style.background = state.quality > 25 ? '#39ff14' : '#ff2d55';
+	qf.style.boxShadow  = state.quality <= 25 ? '0 0 8px #ff2d55' : 'none';
+  }
+  const qv = document.getElementById('qualityVal');
+  if (qv) {
+	qv.innerText = Math.round(state.quality);
+  }
 
   // ── CURRENT TASK ──
   const currentTaskEl = document.getElementById('currentTask');
@@ -1293,7 +1303,7 @@ function render() {
   }).join('');
 
   // Aggiorna il DOM solo se il contenuto è effettivamente diverso
-  if (eventList.innerHTML !== newHtml) eventList.innerHTML = newHtml;
+  if (eventList && eventList.innerHTML !== newHtml) eventList.innerHTML = newHtml;
 
   
   // ── CHARACTER ──
@@ -1302,23 +1312,28 @@ function render() {
   const charImg   = document.getElementById('characterImg');
   
   for (const c of CHARACTERS) {
-    if (state.stress < c.threshold) {
-      char.innerText      = c.emoji;
-      badge.innerText     = c.status;
-      char.style.filter   = state.stress > 70
-        ? 'drop-shadow(0 0 20px rgba(255,45,85,0.5))'
-        : 'drop-shadow(0 0 20px rgba(57,255,20,0.3))';
-      if (charImg.dataset.current !== c.image) {
-        charImg.dataset.current = c.image;
-        charImg.style.display   = 'block';
-        charImg.src             = IMG_BASE + c.image;
-      }
-      break;
-    }
+	if (state.stress < c.threshold) {
+	  if (char) {
+		char.innerText      = c.emoji;
+		char.style.filter   = state.stress > 70 ? 'drop-shadow(0 0 20px rgba(255,45,85,0.5))' : 'drop-shadow(0 0 20px rgba(57,255,20,0.3))';
+	  }
+	  
+	  if (badge) {
+		badge.innerText     = c.status;
+	  }
+	  
+	  if (charImg && charImg.dataset && charImg.dataset.current !== c.image) {
+		charImg.dataset.current = c.image;
+		charImg.style.display   = 'block';
+		charImg.src             = IMG_BASE + c.image;
+	  }
+	  break;
+	}
   }
 }
 
-let last = 0, lastRender = 0;
+let last = 0;
+let lastRender = 0;
 
 setInterval(updateClock, 1000);
 updateClock();
@@ -1330,8 +1345,8 @@ function loop(ts) {
 
   updateTasks(delta);
   state.events = state.events.filter(e => Date.now() < e.expires);
-  if (Math.random() < 0.003 && state.tasks.length < 2) spawnTask();
-  if (Math.random() < 0.003 && state.events.length < 1) triggerEvent();
+  if (Math.random() < 0.003 && state.tasks.length < 3) spawnTask();
+  if (Math.random() < 0.003 && state.events.length < 2) triggerEvent();
 
   clamp();
   checkGameOver();
