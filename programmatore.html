@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Il Programmatore Tipico™ - v0.9.2-HOTFIX</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -679,6 +680,100 @@
     pointer-events: none;
     z-index: 10001;
   }
+  
+  
+  
+ 
+/* MOBILE FIX */
+@media (max-width: 900px) {
+
+  body {
+    overflow: auto;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+  }
+
+  /* TASK (sinistra) */
+  .panel {
+    grid-column: 1;
+    grid-row: 1;
+    height: 220px;
+    border-right: 1px solid var(--border);
+    border-left: none;
+  }
+
+  /* EVENTI (destra) */
+  .panel.right {
+    grid-column: 2;
+    grid-row: 1;
+    height: 220px;
+    border-left: 1px solid var(--border);
+  }
+
+  /* CENTER sotto */
+  .center {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding: 16px;
+  }
+
+  /* importantissimo per evitare overflow nelle grid */
+  .panel, .panel.right {
+    min-width: 0;
+  }
+
+  /* scroll interno */
+  .panel-scroll {
+    overflow-y: auto;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .bars-area {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .bar label {
+    font-size: 12px;
+    min-width: 110px;
+    text-align: left;
+  }
+
+  /* BOTTONI */
+  .actions {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px;
+  }
+
+  .actions button {
+    flex: 1 1 45%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* PERSONAGGIO */
+  #character {
+    font-size: 36px;
+  }
+
+  .task-display {
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
