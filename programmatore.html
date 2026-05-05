@@ -20,7 +20,7 @@
     --dim:    #666699;
 
     --font-s: 10px;
-    --font-m: 16px;
+    --font-m: 14px;
     --font-l: 20px;
     --font-x: 48px;
   }
@@ -214,6 +214,7 @@
   .card-banner {
     width: 100%;
     height: auto;
+	max-height: 150px;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border);
@@ -232,6 +233,7 @@
   .card-banner-wrap img {
     width: 100%;
     height: 100%;
+	max-height: 150px;
     object-fit: cover;
     display: block;
     transition: opacity 0.3s;
@@ -1031,7 +1033,7 @@ const EVENTS = [
   { name: "Oggi è San Pancrazio: 4 ore di permesso obbligatorio!",          stress: -10, quality: 2,   image: "e_san_pancrazio.jpg" },
   { name: "Oggi è San Cremenzio patrono degli sfruttati!",                  stress: -10, quality: 2,   image: "e_san_cremenzio.jpg" },
   { name: "Collega senior 78enne finalmente va in pensione!",               stress: -15, quality: 4,   image: "e_pensione.jpg" },
-  { name: "Collega festeggia con dolcetti fatti in casa!",                  stress: -12, quality: 5,   image: "e_dolcetti.jpg" },
+  { name: "Collega festeggia con dolcetti fatti in casa a forma di cacca!", stress: -12, quality: 2,   image: "e_dolcetti.jpg" },
   { name: "Benefit Aziendale: ricevi un buono da 10€!",                     stress: -10, quality: 3,   image: "e_buono10.jpg" },
   { name: "Benefit Aziendale: ricevi un buono da 50€!",                     stress: -20, quality: 4,   image: "e_buono50.jpg" },
   { name: "Benefit Aziendale: ricevi un buono da 150€!",                    stress: -30, quality: 5,   image: "e_buono150.jpg" },
@@ -1328,8 +1330,8 @@ function loop(ts) {
 
   updateTasks(delta);
   state.events = state.events.filter(e => Date.now() < e.expires);
-  if (Math.random() < 0.003 && state.tasks.length < 3) spawnTask();
-  if (Math.random() < 0.003 && state.events.length < 2) triggerEvent();
+  if (Math.random() < 0.003 && state.tasks.length < 2) spawnTask();
+  if (Math.random() < 0.003 && state.events.length < 1) triggerEvent();
 
   clamp();
   checkGameOver();
