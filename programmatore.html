@@ -20,7 +20,7 @@
     --dim:    #666699;
 
     --font-s: 10px;
-    --font-m: 14px;
+    --font-m: 16px;
     --font-l: 20px;
     --font-x: 48px;
   }
@@ -211,17 +211,6 @@
   }
 
   /* ── CARD BANNER IMAGE ── */
-  .card-banner {
-    width: 100%;
-    height: auto;
-	max-height: 150px;
-    object-fit: cover;
-    display: block;
-    border-bottom: 1px solid var(--border);
-    /* scanline overlay sul banner */
-    position: relative;
-  }
-
   .card-banner-wrap {
     position: relative;
     overflow: hidden;
@@ -245,7 +234,7 @@
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 40px;
-    background: linear-gradient(transparent, #12121f);
+    background: linear-gradient(transparent 50%, #002 100%);
     z-index: 3;
     pointer-events: none;
   }
@@ -270,7 +259,7 @@
 
   /* bonus event: tinta verde sul banner */
   .event.bonus .card-banner-wrap::before {
-    background: linear-gradient(transparent, #0a1a0a);
+    background: linear-gradient(transparent 50%, #020 100%);
   }
   
   .task {
@@ -293,20 +282,23 @@
   .task::before {
     content: '▶ CLICK';
     position: absolute;
-    right: 8px; top: 8px;
-    font-size: var(--font-s);
+    right: 8px; 
+	top: 8px;
+    font-size: var(--font-m);
     color: var(--green);
     opacity: 0;
     transition: opacity 0.15s;
     font-family: 'VT323', monospace;
     letter-spacing: 1px;
+	background: rgba(0, 0, 0, 0.5);
+    padding: 2px 4px;
     z-index: 10;
   }
 
   .task:hover {
     background: #1a1a30;
     border-left-color: var(--green);
-    transform: translateX(2px);
+    transform: scale(1.02);
   }
 
   .task:hover::before { opacity: 1; }
@@ -318,7 +310,7 @@
   }
 
   .task.urgent .card-banner-wrap::before {
-    background: linear-gradient(transparent, #1f0a0a);
+    background: linear-gradient(transparent 50%, #200 100%);
   }
 
   @keyframes urgentPulse {
@@ -369,11 +361,6 @@
 
   .event-body {
     padding: 8px 10px;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateY(-10px); opacity: 0; }
-    to   { transform: translateY(0);     opacity: 1; }
   }
 
   .event-name {
@@ -460,8 +447,6 @@
     line-height: 1;
     animation: float 3s ease-in-out infinite;
   }
-  
-  
   
 
   @keyframes float {
@@ -668,8 +653,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(0,0,0,0.25) 2px,
-      rgba(0,0,0,0.25) 4px
+      rgba(0,0,0,0.2) 2px,
+      rgba(0,0,0,0.2) 4px
     );
     pointer-events: none;
     z-index: 10001;
@@ -741,8 +726,7 @@
   }
 
   .bar label {
-    font-size: 12px;
-    min-width: 110px;
+    min-width: 170px;
     text-align: left;
   }
 
@@ -967,9 +951,9 @@ const EVENTS = [
   { name: "Attacco di dissenteria quando sei in ufficio",                    stress: 15,  quality: -8,  image: "e_dissenteria.jpg" },
   { name: "BitLocker ko e addio al contenuto dell'hard disk",                stress: 8,   quality: -3,  image: "e_bitlocker.jpg" },
   { name: "Helpdesk indiano ti blocca definitivamente il PC",                stress: 10,  quality: -2,  image: "e_india.jpg" },
-  { name: "Vocale delirante di 7 minuti da moglie",                          stress: 15,  quality: -8,  image: "e_vocale_moglie.jpg" },
+  { name: "Vocale delirante di 7 minuti da ex-moglie",                       stress: 15,  quality: -8,  image: "e_vocale_moglie.jpg" },
   { name: "Moglie che urla via WhatsApp cose incomprensibili",               stress: 13,  quality: -10, image: "e_moglie_whatsapp.jpg" },
-  { name: "Telefonata da call-center albanese ti attiva abbonamento",        stress: 4,   quality: -4,  image: "e_callcenter.jpg" },
+  { name: "Telefonata da call-center albanese ti attiva abbonamento non richiesto",  stress: 4,   quality: -4,  image: "e_callcenter.jpg" },
   { name: "Cane del vicino ti morde il piede",                               stress: 8,   quality: -3,  image: "e_cane_morde.jpg" },
   { name: "Jessico Calcetto annulla la partita del giovedi",                 stress: 20,  quality: -10, image: "e_calcetto.jpg" },
   { name: "Vanesso Padel annulla gli incontri del martedi sera",             stress: 16,  quality: -14, image: "e_padel.jpg" },
@@ -980,7 +964,7 @@ const EVENTS = [
   { name: "INPS ha perso 6 mesi di contributi",                              stress: 14,  quality: -6,  image: "e_inps.jpg" },
   { name: "Abbonamento Netflix farlocco sgamato dalla Guardia di Finanza",   stress: 30,  quality: -15, image: "e_netflix_finanza.jpg" },
   { name: "Mal di schiena improvviso ti mette KO",                           stress: 11,  quality: -5,  image: "e_schiena.jpg" },
-  { name: "Auto aziendale ti lascia a piedi nel mezzo del nulla",            stress: 10,  quality: -5,  image: "e_auto_aziendale.jpg" },
+  { name: "Auto aziendale ti lascia a piedi nel bel mezzo del nulla",        stress: 10,  quality: -5,  image: "e_auto_aziendale.jpg" },
   { name: "Cellulare aziendale cade nel WC",                                 stress: 20,  quality: -12, image: "e_cellulare_wc.jpg" },
   { name: "Macchinetta del caffè prende fuoco al 13esimo caffè",             stress: 10,  quality: -4,  image: "e_macchinetta.jpg" },
   { name: "Idraulico vuole essere pagato in natura",                         stress: 25,  quality: -8,  image: "e_idraulico.jpg" },
@@ -1006,7 +990,7 @@ const EVENTS = [
   { name: "Il cliente ti richiede in presenza ma tu sei in Croazia",         stress: -5,  quality: -5,  image: "e_croazia.jpg" },
   { name: "Collega burlone ti gira lo schermo",                              stress: 7,   quality: -1,  image: "e_schermo_girato.jpg" },
   { name: "StackOverflow down in manutenzione",                              stress: 5,   quality: -4,  image: "e_stackoverflow.jpg" },
-  { name: "YouTube oggi non vuole proprio funzionare",                       stress: 4,   quality: 4,   image: "e_youtube.jpg" },
+  { name: "YouTube oggi non vuole proprio saperne di funzionare",            stress: 4,   quality: 4,   image: "e_youtube.jpg" },
   { name: "Azienda ti sgama in finta malattia",                              stress: 20,  quality: -7,  image: "e_finta_malattia.jpg" },
   { name: "Ti rechi in ufficio il giorno della chiusura aziendale",          stress: 8,   quality: -5,  image: "e_chiusura.jpg" },
   { name: "Google Chrome blocca l'estensione CORS",                          stress: 6,   quality: -3,  image: "e_cors.jpg" },
@@ -1019,7 +1003,7 @@ const EVENTS = [
   { name: "Internet Explorer crash inatteso",                                stress: 3,   quality: -2,  image: "e_ie_crash.jpg" },
   { name: "Cambio password obbligatorio",                                    stress: 2,   quality: -1,  image: "e_password.jpg" },
   { name: "Windows Update incasina di nuovo la scheda audio",                stress: 6,   quality: -3,  image: "e_audio_ko.jpg" },
-  { name: "Hai vinto una trasferta a Domodossola",                           stress: 18,  quality: -10, image: "e_domodossola.jpg" },
+  { name: "Hai vinto una trasferta in provincia di Domodossola",             stress: 18,  quality: -10, image: "e_domodossola.jpg" },
   { name: "Promozione inaspettata dopo 16 anni da Junior!",                  stress: -30, quality: 20,  image: "e_promozione.jpg" },
   { name: "Hai donato il sangue e puoi restare a casa!",                     stress: -15, quality: 5,   image: "e_sangue.jpg" },
   { name: "Oggi è San Pancrazio: 4 ore di permesso obbligatorio!",           stress: -10, quality: 2,   image: "e_san_pancrazio.jpg" },
@@ -1074,7 +1058,12 @@ function flashBar(id, dir) {
 }
 
 function spawnTask() {
-  const t = TASKS[Math.floor(Math.random() * TASKS.length)];
+  const activeNames = new Set(state.tasks.map(t => t.name));
+  if (state.currentTask) activeNames.add(state.currentTask.name);
+  const available = TASKS.filter(t => !activeNames.has(t.name));
+  if (available.length === 0) return;
+  const t = available[Math.floor(Math.random() * available.length)];
+  //const t = TASKS[Math.floor(Math.random() * TASKS.length)];
   const ttl = 5000 + Math.random() * 5000;
   const id = Date.now() + Math.random();
   state.taskTTLMax[id] = ttl;
@@ -1082,7 +1071,11 @@ function spawnTask() {
 }
 
 function triggerEvent() {
-  const e = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+  const activeNames = new Set(state.events.map(e => e.name));
+  const available = EVENTS.filter(e => !activeNames.has(e.name));
+  if (available.length === 0) return;
+  const e = available[Math.floor(Math.random() * available.length)];
+  //const e = EVENTS[Math.floor(Math.random() * EVENTS.length)];
   state.stress  += e.stress;
   state.quality += e.quality;
   flashBar('quality', e.quality);
@@ -1130,10 +1123,7 @@ function updateTasks(delta) {
 function coffee()    { state.stress -= 10; flashBar('stress', -1); }
 function refactor()  { state.quality += 10; flashBar('quality', +1); }
 function ignore()    { state.stress -= 5; state.quality -= 5; flashBar('stress', -1); flashBar('quality', -1); }
-function cazzeggio() {
-  state.stress -= 15; state.quality -= 15; state.chargeability -= 15;
-  flashBar('stress', -1); flashBar('quality', -1); flashBar('charge', -1);
-}
+function cazzeggio() { state.stress -= 15; state.quality -= 15; state.chargeability -= 15; flashBar('stress', -1); flashBar('quality', -1); flashBar('charge', -1); }
 
 function clamp() {
   state.stress        = Math.max(0, Math.min(100, state.stress));
