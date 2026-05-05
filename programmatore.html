@@ -924,37 +924,39 @@ const state = {
 // ── TASKS — aggiungi il campo image: 'nomefile.jpg' ──
 // Se image è null, la card non mostrerà banner
 const TASKS = [
-  { name: "Call improvvisa",                                  duration: 3000, stress: 10, quality: -4,  image: "t_call_improvvisa.jpg" },
-  { name: "Bug semplice",                                     duration: 2000, stress: 3,  quality: -3,  image: "t_bug_semplice.jpg" },
-  { name: "Timesheet entro ieri",                             duration: 2000, stress: 8,  quality: -5,  image: "t_timesheet.jpg" },
-  { name: "Rilascio all'ora di pranzo",                       duration: 2000, stress: 7,  quality: -2,  image: "t_rilascio_pranzo.jpg" },
-  { name: "CR con Specifiche fumose",                         duration: 3000, stress: 7,  quality: -5,  image: "t_cr_fumosa.jpg" },
-  { name: "Svuotare la cache di Akamai",                      duration: 1000, stress: 5,  quality: -2,  image: "t_akamai.jpg" },
-  { name: "Fixare i caratteri accentati sul GRM",             duration: 2000, stress: 5,  quality: -2,  image: "t_accenti_grm.jpg" },
-  { name: "Fare KT ultra-tecnico a collega salumiere",        duration: 4000, stress: 10, quality: -2,  image: "t_kt_salumiere.jpg" },
-  { name: "Bug Critico - War Room immediata",                 duration: 6000, stress: 20, quality: -4,  image: "t_war_room.jpg" },
-  { name: "Scrivere specifiche inutili",                      duration: 5000, stress: 10, quality: -3,  image: "t_specifiche_inutili.jpg" },
-  { name: "Rispondere email thread di lunghezza biblica",     duration: 3000, stress: 10, quality: -4,  image: "t_email_thread.jpg" },
-  { name: "Analisi sul benefit Lounge Premio",                duration: 5000, stress: 15, quality: -3,  image: "t_lounge_premio.jpg" },
-  { name: "Analisi sul Pet Kit in caso di Upgrade",           duration: 4000, stress: 12, quality: -3,  image: "t_pet_kit.jpg" },
-  { name: "Sbloccare la pipeline su Azure",                   duration: 2000, stress: 3,  quality: -1,  image: "t_azure_pipeline.jpg" },
-  { name: "Smoke test su BIGv6",                              duration: 3000, stress: 15, quality: -3,  image: "t_smoke_test.jpg" },
-  { name: "Capire perchè la SOA è ancora down",               duration: 4000, stress: 5,  quality: -2,  image: "t_soa_down.jpg" },
-  { name: "Requisito senza specifiche",                       duration: 2000, stress: 8,  quality: -3,  image: "t_requisito_vago.jpg" },
-  { name: "Project Manager chiede PPT per la demo",           duration: 2000, stress: 8,  quality: -6,  image: "t_ppt_demo.jpg" },
-  { name: "CR urgente",                                       duration: 3000, stress: 10, quality: -6,  image: "t_cr_urgente.jpg" },
-  { name: "Bug clamoroso in Produzione",                      duration: 3000, stress: 7,  quality: -6,  image: "t_bug_produzione.jpg" },
-  { name: "Corso obbligatorio (click avanti avanti)",         duration: 3000, stress: 2,  quality: -1,  image: "t_corso_click.jpg" },
-  { name: "Corso senza transcript con quiz finale bastardo",  duration: 4000, stress: 12, quality: -4,  image: "t_corso_quiz.jpg" },
-  { name: "Sviluppetto carino",                               duration: 4000, stress: 15, quality: -6,  image: "t_sviluppetto.jpg" },
-  { name: "Implementare requisito da spegnere in Produzione", duration: 4000, stress: 7,  quality: -3,  image: "t_requisito_spegnere.jpg" },
-  { name: "Rifare le stime per un requisito già stimato",     duration: 3000, stress: 12, quality: -5,  image: "t_stime.jpg" },
-  { name: "Tracciamenti Google Analytics",                    duration: 3000, stress: 4,  quality: -2,  image: "t_ga.jpg" },
-  { name: "Fix urgente su Sitecore in Produzione",            duration: 3000, stress: 6,  quality: -4,  image: "t_sitecore.jpg" },
-  { name: "Cambio label per offerta last minute",             duration: 3000, stress: 5,  quality: -2,  image: "t_label_lastminute.jpg" },
-  { name: "Estrarre Log da Splunk",                           duration: 4000, stress: 8,  quality: -1,  image: "t_splunk.jpg" },
-  { name: "Usare un nuovo framework buggato",                 duration: 3000, stress: 15, quality: -4,  image: "t_framework_buggato.jpg" },
-  { name: "Nuovo metodo di pagamento Loyalty da Benefit",     duration: 3000, stress: 10, quality: -3,  image: "t_loyalty.jpg" },
+  { name: "Call improvvisa",                                      duration: 3000, stress: 10, quality: -4,  image: "t_call_improvvisa.jpg" },
+  { name: "Bug semplice",                                         duration: 2000, stress: 3,  quality: -3,  image: "t_bug_semplice.jpg" },
+  { name: "Timesheet da compilare entro ieri",                    duration: 2000, stress: 8,  quality: -5,  image: "t_timesheet.jpg" },
+  { name: "Rilascio all'ora di pranzo",                           duration: 2000, stress: 7,  quality: -2,  image: "t_rilascio_pranzo.jpg" },
+  { name: "CR con Specifiche molto fumose",                       duration: 3000, stress: 7,  quality: -5,  image: "t_cr_fumosa.jpg" },
+  { name: "Svuotare la cache di Akamai",                          duration: 1000, stress: 5,  quality: -2,  image: "t_akamai.jpg" },
+  { name: "Fixare alcuni caratteri accentati sul GRM",            duration: 2000, stress: 5,  quality: -2,  image: "t_accenti_grm.jpg" },
+  { name: "Fare KT ultra-tecnico a collega salumiere",            duration: 4000, stress: 10, quality: -2,  image: "t_kt_salumiere.jpg" },
+  { name: "Bug Critico - War Room immediata",                     duration: 6000, stress: 20, quality: -4,  image: "t_war_room.jpg" },
+  { name: "Scrivere specifiche inutili che nessuno leggerà",      duration: 5000, stress: 10, quality: -3,  image: "t_specifiche_inutili.jpg" },
+  { name: "Rispondere email thread di lunghezza biblica",         duration: 3000, stress: 10, quality: -4,  image: "t_email_thread.jpg" },
+  { name: "Analisi sul benefit Lounge Premio",                    duration: 5000, stress: 15, quality: -3,  image: "t_lounge_premio.jpg" },
+  { name: "Analisi sul Pet Kit in caso di Upgrade",               duration: 4000, stress: 12, quality: -3,  image: "t_pet_kit.jpg" },
+  { name: "Sbloccare la pipeline su Azure",                       duration: 2000, stress: 3,  quality: -1,  image: "t_azure_pipeline.jpg" },
+  { name: "Smoke test su BIGv5 per partner dismessi",             duration: 3000, stress: 15, quality: -3,  image: "t_smoke_test.jpg" },
+  { name: "Capire perchè la SOA è ancora down",                   duration: 4000, stress: 5,  quality: -2,  image: "t_soa_down.jpg" },
+  { name: "Requisito senza specifiche",                           duration: 2000, stress: 8,  quality: -3,  image: "t_requisito_vago.jpg" },
+  { name: "Project Manager chiede PPT per la demo",               duration: 2000, stress: 8,  quality: -6,  image: "t_ppt_demo.jpg" },
+  { name: "CR urgente",                                           duration: 3000, stress: 10, quality: -6,  image: "t_cr_urgente.jpg" },
+  { name: "Bug clamoroso in Produzione",                          duration: 3000, stress: 7,  quality: -6,  image: "t_bug_produzione.jpg" },
+  { name: "Corso obbligatorio (click avanti avanti avanti)",      duration: 3000, stress: 2,  quality: -1,  image: "t_corso_click.jpg" },
+  { name: "Corso senza transcript con quiz finale bastardo",      duration: 4000, stress: 12, quality: -4,  image: "t_corso_quiz.jpg" },
+  { name: "Ho uno Sviluppetto Carino per te",                     duration: 4000, stress: 15, quality: -6,  image: "t_sviluppetto.jpg" },
+  { name: "Implementare requisito da spegnere in Produzione",     duration: 4000, stress: 7,  quality: -3,  image: "t_requisito_spegnere.jpg" },
+  { name: "Rifare le stime per un requisito già stimato",         duration: 3000, stress: 12, quality: -5,  image: "t_stime.jpg" },
+  { name: "Tracciamenti di Google Analytics",                     duration: 3000, stress: 4,  quality: -2,  image: "t_ga.jpg" },
+  { name: "Fix urgente su Sitecore in Produzione",                duration: 3000, stress: 6,  quality: -4,  image: "t_sitecore.jpg" },
+  { name: "Cambio label per un'offerta last minute",              duration: 3000, stress: 5,  quality: -2,  image: "t_label_lastminute.jpg" },
+  { name: "Estrarre Log da Splunk senza conoscere signature",     duration: 4000, stress: 8,  quality: -1,  image: "t_splunk.jpg" },
+  { name: "Usare un nuovo framework js buggato",                  duration: 3000, stress: 15, quality: -4,  image: "t_framework_buggato.jpg" },
+  { name: "Nuovo benefit per gli utenti con Senior Loyalty",      duration: 3000, stress: 12, quality: -2,  image: "t_loyalty.jpg" },
+  { name: "Introdurre come metodo di pagamento il Baratto",       duration: 2000, stress: 10, quality: -1,  image: "t_baratto.jpg" },
+  { name: "Nuovo requisito: porta un amico che paga per tutti",   duration: 3000, stress: 5,  quality: -3,  image: "t_polizia.jpg" },
 ];
 
 // ── EVENTS — aggiungi il campo image: 'nomefile.jpg' ──
@@ -1326,8 +1328,8 @@ function loop(ts) {
 
   updateTasks(delta);
   state.events = state.events.filter(e => Date.now() < e.expires);
-  if (Math.random() < 0.003) spawnTask();
-  if (Math.random() < 0.003 && state.events.length < 1) triggerEvent();
+  if (Math.random() < 0.003 && state.tasks.length < 3) spawnTask();
+  if (Math.random() < 0.003 && state.events.length < 2) triggerEvent();
 
   clamp();
   checkGameOver();
