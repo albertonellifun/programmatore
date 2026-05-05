@@ -1,0 +1,2 @@
+# programmatore
+Il Programmatore Tipico
