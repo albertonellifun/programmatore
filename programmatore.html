@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Il Programmatore Tipico™ - v0.9.2-HOTFIX</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:  #39ff14;
+    --red:    #ff2d55;
+    --yellow: #ffe600;
+    --orange: #ff8c00;
+    --blue:   #00cfff;
+    --purple: #c77dff;
+    --bg:     #0a0a0f;
+    --panel:  #0f0f1a;
+    --border: #2a2a4a;
+    --text:   #c8c8e0;
+    --dim:    #666699;
+
+    --font-s: 10px;
+    --font-m: 16px;
+    --font-l: 20px;
+    --font-x: 48px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Share Tech Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(57,255,20,0.015);
+    pointer-events: none;
+    z-index: 9998;
+    animation: flicker 8s infinite;
+  }
+
+  @keyframes flicker {
+    0%,100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.7; }
+    94% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 1; }
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    background: var(--panel);
+    border-bottom: 2px solid var(--border);
+    height: 64px;
+    gap: 20px;
+  }
+
+  .topbar-title {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    color: var(--green);
+    text-shadow: 0 0 8px var(--green);
+    white-space: nowrap;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
+  .topbar-title span {
+    color: var(--dim);
+    font-size: var(--font-m);
+  }
+
+  .bars-area {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 280px;
+  }
+
+  .bar label {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    white-space: nowrap;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    min-width: 90px;
+    text-align: right;
+  }
+
+  .bar label.stress-label   { color: #ff2d55cc; }
+  .bar label.quality-label  { color: #39ff1499; }
+  .bar label.charge-label   { color: #00cfffcc; }
+
+  .progress-wrap {
+    flex: 1;
+    position: relative;
+  }
+
+  .progress {
+    height: 18px;
+    background: #0a0a12;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .fill {
+    height: 100%;
+    width: 50%;
+    transition: width 0.25s, background 0.5s;
+    position: relative;
+  }
+
+  .fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: rgba(255,255,255,0.6);
+    filter: blur(2px);
+  }
+
+  .bar-value {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    width: 34px;
+    text-align: right;
+    color: var(--dim);
+    flex-shrink: 0;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    height: calc(100vh - 64px - 60px);
+  }
+
+  .panel {
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel.right {
+    border-right: none;
+    border-left: 1px solid var(--border);
+  }
+
+  .panel-header {
+    padding: 8px 12px;
+    background: #14142a;
+    border-bottom: 1px solid var(--border);
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    letter-spacing: 2px;
+    color: var(--blue);
+    text-shadow: 0 0 6px var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 6px var(--blue);
+    animation: blink 1.2s infinite;
+  }
+
+  .panel-header.events-header { color: var(--red); text-shadow: 0 0 6px var(--red); }
+  .panel-header.events-header .dot { background: var(--red); box-shadow: 0 0 6px var(--red); animation-delay: 0.6s; }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .panel-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  /* ── CARD BANNER IMAGE ── */
+  .card-banner {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--border);
+    /* scanline overlay sul banner */
+    position: relative;
+  }
+
+  .card-banner-wrap {
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    background: #0a0a18;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-banner-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s;
+    xxxfilter: saturate(0.7) brightness(0.75);
+  }
+
+  /* Gradient overlay dal basso: sfuma il banner nel colore della card */
+  .card-banner-wrap::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #12121f);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Fallback placeholder quando non c'è l'immagine o è in errore */
+  .card-banner-placeholder {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    background: linear-gradient(135deg, #0d0d20 0%, #12121f 100%);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 4px;
+    opacity: 0.5;
+    font-family: 'VT323', monospace;
+    color: var(--dim);
+    font-size: var(--font-m);
+    letter-spacing: 3px;
+  }
+
+  /* bonus event: tinta verde sul banner */
+  .event.bonus .card-banner-wrap::before {
+    background: linear-gradient(transparent, #0a1a0a);
+  }
+  .event.bonus .card-banner-wrap img {
+    xxxfilter: saturate(0.6) brightness(0.7) hue-rotate(80deg);
+  }
+
+  .task {
+    background: #12121f;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+	xxxpadding: 8px 10px;					  
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .task-body {
+    padding: 8px 10px;
+    position: relative;
+  }
+
+  .task::before {
+    content: '▶ CLICK';
+    position: absolute;
+    right: 8px; top: 8px;
+    font-size: var(--font-s);
+    color: var(--green);
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-family: 'VT323', monospace;
+    letter-spacing: 1px;
+    z-index: 10;
+  }
+
+  .task:hover {
+    background: #1a1a30;
+    border-left-color: var(--green);
+    transform: translateX(2px);
+  }
+
+  .task:hover::before { opacity: 1; }
+
+  .task.urgent {
+    border-left-color: var(--red) !important;
+    background: #1f0a0a !important;
+    animation: urgentPulse 0.6s infinite;
+  }
+
+  .task.urgent .card-banner-wrap::before {
+    background: linear-gradient(transparent, #1f0a0a);
+  }
+
+  @keyframes urgentPulse {
+    0%,100% { border-left-color: var(--red); }
+    50% { border-left-color: #660000; }
+  }
+
+  .task-name {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-m);
+    color: var(--text);
+    margin-bottom: 4px;
+    padding-right: 50px;
+  }
+
+  .task-meta {
+    font-size: var(--font-s);
+    color: var(--blue);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .task-meta .ttl       { color: var(--yellow); }
+  .task-meta .ttl.low   { color: var(--red); }
+
+  .ttl-bar {
+    height: 2px;
+    background: var(--border);
+    margin-top: 6px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .ttl-fill {
+    height: 100%;
+    background: var(--green);
+    transition: width 0.25s, background 0.25s;
+  }
+
+  .event {
+    background: #1a0a0f;
+    border: 1px solid #2a0a14;
+    border-left: 3px solid var(--red);
+    xxxpadding: 8px 10px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    xxxanimation: slideIn 0.3s ease;
+    overflow: hidden;
+  }
+
+  .event-body {
+    padding: 8px 10px;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+  }
+
+  .event-name {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-m);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .event-meta {
+    font-size: var(--font-s);
+    color: var(--dim);
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+  }
+
+  .event-meta .neg { color: var(--red); }
+  .event-meta .pos { color: var(--green); }
+
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+	padding-top: 24px;
+  }
+
+  .center::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(57,255,20,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57,255,20,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .character-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+	flex-direction: column;
+  }
+  
+  .character-portrait {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #0a0a18;
+    flex-shrink: 0;
+    position: relative;
+  }
+  
+  .character-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    xxxfilter: saturate(0.75) brightness(0.8);
+    transition: opacity 0.4s;
+  }
+  
+  .character-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  #character {
+    font-size: var(--font-x);
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(57,255,20,0.3));
+    transition: filter 0.5s;
+    line-height: 1;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  
+  
+
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .status-badge {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-m);
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .task-display {
+    z-index: 2;
+    width: 85%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  #currentTask {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    color: var(--green);
+    text-shadow: 0 0 10px rgba(57,255,20,0.5);
+    margin-bottom: 10px;
+    min-height: 28px;
+    letter-spacing: 1px;
+  }
+
+  .progress-label {
+    font-size: var(--font-s);
+    color: var(--dim);
+    text-align: left;
+    margin-bottom: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .progress.main-bar {
+    height: 22px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    position: relative;
+  }
+
+  #taskProgress {
+    background: linear-gradient(90deg, #008b00, var(--green));
+    box-shadow: 0 0 8px rgba(57,255,20,0.4);
+  }
+
+  .corner-tag {
+    position: absolute;
+    font-family: 'VT323', monospace;
+    font-size: var(--font-m);
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  .corner-tag.tl { top: 8px; left: var(--font-m); }
+  .corner-tag.tr { top: 8px; right: var(--font-m); }
+  .corner-tag.bl { bottom: 8px; left: var(--font-m); }
+  .corner-tag.br { bottom: 8px; right: var(--font-m); }
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #0f0f1a;
+    border-top: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 16px;
+    height: 60px;
+    align-items: center;
+  }
+
+  .actions button {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    letter-spacing: 1px;
+    padding: 6px 18px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .actions button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.08);
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  .actions button:hover::after { opacity: 1; }
+  .actions button:active { transform: scale(0.96); }
+
+  .coffee    { background: #1a1000; color: var(--yellow); border-color: #554400 !important; }
+  .coffee:hover    { background: #2a1a00; box-shadow: 0 0 12px rgba(255,230,0,0.3); }
+
+  .refactor  { background: #001a0a; color: var(--green); border-color: #004422 !important; }
+  .refactor:hover  { background: #002a10; box-shadow: 0 0 12px rgba(57,255,20,0.3); }
+
+  .ignore    { background: #1a000a; color: var(--red); border-color: #440022 !important; }
+  .ignore:hover    { background: #2a0010; box-shadow: 0 0 12px rgba(255,45,85,0.3); }
+
+  .cazzeggio { background: #0a001a; color: var(--purple); border-color: #330055 !important; min-width: 36px; }
+  .cazzeggio:hover { background: #150030; box-shadow: 0 0 12px rgba(199,125,255,0.3); }
+
+  #clock  { font-family: 'VT323', monospace; font-size: var(--font-m); color: var(--dim); margin-left: auto; letter-spacing: 2px; }
+
+  @keyframes flashGood { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 18px var(--flash-color)} }
+  @keyframes flashBad  { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 18px var(--flash-color)} }
+
+  /* charge: sale = bene (verde), scende = male (rosso) */
+  .charge-flash-up   { --flash-color:#39ff14; animation: flashGood 0.5s ease; }
+  .charge-flash-down { --flash-color:#ff2d55; animation: flashBad  0.5s ease; }
+
+  /* stress: sale = male (rosso), scende = bene (verde) */
+  .stress-flash-up   { --flash-color:#ff2d55; animation: flashBad  0.5s ease; }
+  .stress-flash-down { --flash-color:#39ff14; animation: flashGood 0.5s ease; }
+
+  /* quality: sale = bene (verde), scende = male (rosso) */
+  .quality-flash-up   { --flash-color:#39ff14; animation: flashGood 0.5s ease; }
+  .quality-flash-down { --flash-color:#ff2d55; animation: flashBad  0.5s ease; }
+
+  #gameOverScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  #gameOverScreen.show { display: flex; }
+
+  #gameOverMsg {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-x);
+    color: var(--red);
+    text-shadow: 0 0 30px var(--red);
+    text-align: center;
+    animation: glitch 0.3s infinite;
+    line-height: 1.2;
+  }
+
+  #gameOverSub {
+    font-family: 'VT323', monospace;
+    color: var(--dim);
+    font-size: var(--font-l);
+    text-align: center;
+  }
+
+  @keyframes glitch {
+    0%   { text-shadow: 0 0 30px var(--red); transform: none; }
+    20%  { text-shadow: 3px 0 0 cyan, -3px 0 0 var(--red); transform: skewX(2deg); }
+    40%  { text-shadow: -3px 0 0 cyan, 3px 0 0 var(--red); transform: skewX(-2deg); }
+    60%  { text-shadow: 0 0 30px var(--red); transform: none; }
+    100% { text-shadow: 0 0 30px var(--red); transform: none; }
+  }
+
+  #restartBtn {
+    font-family: 'VT323', monospace;
+    font-size: var(--font-l);
+    padding: 10px 30px;
+    background: transparent;
+    border: 2px solid var(--green);
+    color: var(--green);
+    cursor: pointer;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  #restartBtn:hover {
+    background: var(--green);
+    color: var(--bg);
+    box-shadow: 0 0 20px var(--green);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  
+  /* ── UNICO OVERLAY SCANLINES ── */
+  #scanlines {
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.25) 2px,
+      rgba(0,0,0,0.25) 4px
+    );
+    pointer-events: none;
+    z-index: 10001;
+  }
+</style>
+</head>
+<body>
+
+<div id="scanlines"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-title">
+    IL PROGRAMMATORE TIPICO™ <span>v0.9.2-HOTFIX</span>
+  </div>
+
+  <div class="bars-area">
+    <div class="bar">
+      <label class="charge-label">CHARGEABILITY</label>
+      <div class="progress-wrap">
+        <div class="progress" id="chargeBarWrap">
+          <div id="chargeFill" class="fill"></div>
+        </div>
+      </div>
+      <div class="bar-value" id="chargeVal">50</div>
+    </div>
+
+    <div class="bar">
+      <label class="stress-label">STRESS ACCUMULATO</label>
+      <div class="progress-wrap">
+        <div class="progress" id="stressBarWrap">
+          <div id="stressFill" class="fill"></div>
+        </div>
+      </div>
+      <div class="bar-value" id="stressVal">20</div>
+    </div>
+
+    <div class="bar">
+      <label class="quality-label">QUALITÀ DEL CODICE</label>
+      <div class="progress-wrap">
+        <div class="progress" id="qualityBarWrap">
+          <div id="qualityFill" class="fill"></div>
+        </div>
+      </div>
+      <div class="bar-value" id="qualityVal">80</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <div class="panel">
+    <div class="panel-header" title="Tutto ciò che la mente umana può partorire per spillare soldi al cliente">
+      <span class="dot"></span> TASK DAL CAPO
+    </div>
+    <div class="panel-scroll" id="taskList"></div>
+  </div>
+
+  <div class="center">
+    <span class="corner-tag tl">SYS_OK</span>
+    <span class="corner-tag tr">AVA_PC7</span>
+	<span class="corner-tag bl">LOC:HOME</span>
+	<span class="corner-tag br" id="clock" title="La giornata è ancora lunga: inutile guardare l'orologio...">00:00:00</span>
+    
+
+    <div class="character-wrap">
+	  <div class="character-portrait">
+		<img id="characterImg" src="" alt="" onerror="this.style.display='none'">
+	  </div>
+	  <div class="character-right">
+		<span id="character">😐</span>
+		<div class="status-badge" id="statusBadge">IDLE</div>
+	  </div>
+	</div>
+
+    <div class="task-display">
+      <div class="progress-label">▸ TASK IN CORSO</div>
+      <div id="currentTask">Sono scarico...</div>
+      <div class="progress main-bar">
+        <div id="taskProgress" class="fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel right">
+    <div class="panel-header events-header" title="La fortuna è cieca, ma la sfiga ci vede benissimo!">
+      <span class="dot"></span> EVENTI IMPROVVISI
+    </div>
+    <div class="panel-scroll" id="eventList"></div>
+  </div>
+
+</div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button class="coffee"    onclick="coffee()"    title="Diminuisce lo stress">☕ Pausa Caffè</button>
+  <button class="refactor"  onclick="refactor()"  title="Aumenta la qualità del codice">🛠 Refactor del Codice</button>
+  <button class="ignore"    onclick="ignore()"    title="Diminuisce stress e qualità del codice">🙈 Ignora il Capo</button>
+  <button class="cazzeggio" onclick="cazzeggio()" title="Diminuisce stress e qualità del codice, chargeability a picco">🎮 Cazzeggio Assoluto</button>
+</div>
+
+<!-- GAME OVER -->
+<div id="gameOverScreen">
+  <div id="gameOverMsg">GAME OVER</div>
+  <div id="gameOverSub"></div>
+  <button id="restartBtn" onclick="location.reload()">▶ RIPROVA</button>
+</div>
+
+<script>
+
+// ── Cartella immagini (relativa all'HTML) ──
+const IMG_BASE = './img/';
+
+const CHARACTERS = [
+  { threshold: 15,  emoji: '😊', status: 'RILASSATO',          image: 'char_rilassato.png' },
+  { threshold: 30,  emoji: '😐', status: 'QUASI OK',           image: 'char_quasiok.png' },
+  { threshold: 45,  emoji: '☹️', status: 'SOTTO STRESS',       image: 'char_stress.png' },
+  { threshold: 60,  emoji: '😔', status: 'SOFFERENTE',         image: 'char_sofferente.png' },
+  { threshold: 75,  emoji: '😤', status: 'AL LIMITE',          image: 'char_limite.png' },
+  { threshold: 90,  emoji: '🤬', status: 'COLLASSO IMMINENTE', image: 'char_collasso.png' },
+  { threshold: 101, emoji: '💀', status: 'RIPOSA IN PACE',     image: 'char_rip.png' },
+];
+
+// ── Helper: costruisce il banner HTML di una card ──
+// Se image è null/undefined → placeholder testuale
+// Se il file non esiste (onerror) → si nasconde silenziosamente
+function buildBanner(image, isBonus) {
+  if (!image) {
+    return `<div class="card-banner-placeholder">[ NO IMG ]</div>`;
+  }
+  const src = IMG_BASE + image;
+  return `<div class="card-banner-wrap">
+    <img src="${src}"
+         alt=""
+         loading="lazy"
+         onerror="this.parentElement.style.display='none'">
+  </div>`;
+}
+
+const state = {
+  stress: 10,
+  quality: 80,
+  chargeability: 50,
+  tasks: [],
+  currentTask: null,
+  events: [],
+  gameOver: false,
+  taskTTLMax: {}
+};
+
+// ── TASKS — aggiungi il campo image: 'nomefile.jpg' ──
+// Se image è null, la card non mostrerà banner
+const TASKS = [
+  { name: "Call improvvisa",                                  duration: 3000, stress: 10, quality: -4,  image: "t_call_improvvisa.jpg" },
+  { name: "Bug semplice",                                     duration: 2000, stress: 3,  quality: -3,  image: "t_bug_semplice.jpg" },
+  { name: "Timesheet entro ieri",                             duration: 2000, stress: 8,  quality: -5,  image: "t_timesheet.jpg" },
+  { name: "Rilascio all'ora di pranzo",                       duration: 2000, stress: 7,  quality: -2,  image: "t_rilascio_pranzo.jpg" },
+  { name: "CR con Specifiche fumose",                         duration: 3000, stress: 7,  quality: -5,  image: "t_cr_fumosa.jpg" },
+  { name: "Svuotare la cache di Akamai",                      duration: 1000, stress: 5,  quality: -2,  image: "t_akamai.jpg" },
+  { name: "Fixare i caratteri accentati sul GRM",             duration: 2000, stress: 5,  quality: -2,  image: "t_accenti_grm.jpg" },
+  { name: "Fare KT ultra-tecnico a collega salumiere",        duration: 4000, stress: 10, quality: -2,  image: "t_kt_salumiere.jpg" },
+  { name: "Bug Critico - War Room immediata",                 duration: 6000, stress: 20, quality: -4,  image: "t_war_room.jpg" },
+  { name: "Scrivere specifiche inutili",                      duration: 5000, stress: 10, quality: -3,  image: "t_specifiche_inutili.jpg" },
+  { name: "Rispondere email thread di lunghezza biblica",     duration: 3000, stress: 10, quality: -4,  image: "t_email_thread.jpg" },
+  { name: "Analisi sul benefit Lounge Premio",                duration: 5000, stress: 15, quality: -3,  image: "t_lounge_premio.jpg" },
+  { name: "Analisi sul Pet Kit in caso di Upgrade",           duration: 4000, stress: 12, quality: -3,  image: "t_pet_kit.jpg" },
+  { name: "Sbloccare la pipeline su Azure",                   duration: 2000, stress: 3,  quality: -1,  image: "t_azure_pipeline.jpg" },
+  { name: "Smoke test su BIGv6",                              duration: 3000, stress: 15, quality: -3,  image: "t_smoke_test.jpg" },
+  { name: "Capire perchè la SOA è ancora down",               duration: 4000, stress: 5,  quality: -2,  image: "t_soa_down.jpg" },
+  { name: "Requisito senza specifiche",                       duration: 2000, stress: 8,  quality: -3,  image: "t_requisito_vago.jpg" },
+  { name: "Project Manager chiede PPT per la demo",           duration: 2000, stress: 8,  quality: -6,  image: "t_ppt_demo.jpg" },
+  { name: "CR urgente",                                       duration: 3000, stress: 10, quality: -6,  image: "t_cr_urgente.jpg" },
+  { name: "Bug clamoroso in Produzione",                      duration: 3000, stress: 7,  quality: -6,  image: "t_bug_produzione.jpg" },
+  { name: "Corso obbligatorio (click avanti avanti)",         duration: 3000, stress: 2,  quality: -1,  image: "t_corso_click.jpg" },
+  { name: "Corso senza transcript con quiz finale bastardo",  duration: 4000, stress: 12, quality: -4,  image: "t_corso_quiz.jpg" },
+  { name: "Sviluppetto carino",                               duration: 4000, stress: 15, quality: -6,  image: "t_sviluppetto.jpg" },
+  { name: "Implementare requisito da spegnere in Produzione", duration: 4000, stress: 7,  quality: -3,  image: "t_requisito_spegnere.jpg" },
+  { name: "Rifare le stime per un requisito già stimato",     duration: 3000, stress: 12, quality: -5,  image: "t_stime.jpg" },
+  { name: "Tracciamenti Google Analytics",                    duration: 3000, stress: 4,  quality: -2,  image: "t_ga.jpg" },
+  { name: "Fix urgente su Sitecore in Produzione",            duration: 3000, stress: 6,  quality: -4,  image: "t_sitecore.jpg" },
+  { name: "Cambio label per offerta last minute",             duration: 3000, stress: 5,  quality: -2,  image: "t_label_lastminute.jpg" },
+  { name: "Estrarre Log da Splunk",                           duration: 4000, stress: 8,  quality: -1,  image: "t_splunk.jpg" },
+  { name: "Usare un nuovo framework buggato",                 duration: 3000, stress: 15, quality: -4,  image: "t_framework_buggato.jpg" },
+  { name: "Nuovo metodo di pagamento Loyalty da Benefit",     duration: 3000, stress: 10, quality: -3,  image: "t_loyalty.jpg" },
+];
+
+// ── EVENTS — aggiungi il campo image: 'nomefile.jpg' ──
+const EVENTS = [
+  { name: "Bimbo con febbre",                                               stress: 5,   quality: -2,  image: "e_bimbo_febbre.jpg" },
+  { name: "Gatto vomita sul PC aziendale",                                  stress: 10,  quality: -5,  image: "e_gatto_vomita.jpg" },
+  { name: "Windows Update obbligatorio",                                    stress: 3,   quality: -3,  image: "e_windows_update.jpg" },
+  { name: "Microsoft Antivirus ti blocca il PC",                            stress: 6,   quality: -3,  image: "e_antivirus.jpg" },
+  { name: "Windows estrae a sorte un problema sconosciuto",                 stress: 9,   quality: -4,  image: "e_windows.jpg" },
+  { name: "Le carte Nexi di test non funzionano",                           stress: 12,  quality: -2,  image: "e_nexi.jpg" },
+  { name: "Nuova VPN inesorabilmente down",                                 stress: 15,  quality: -8,  image: "e_vpn_down.jpg" },
+  { name: "Pacco Amazon perso dal corriere",                                stress: 8,   quality: -1,  image: "e_amazon_perso.jpg" },
+  { name: "Pacco AliExpress preso a calci dal corriere",                    stress: 8,   quality: -1,  image: "e_ali_calci.jpg" },
+  { name: "Attacco di dissenteria quando sei in ufficio",                   stress: 15,  quality: -8,  image: "e_dissenteria.jpg" },
+  { name: "BitLocker ko e addio al contenuto dell'hard disk",               stress: 8,   quality: -3,  image: "e_bitlocker.jpg" },
+  { name: "Helpdesk indiano ti blocca definitivamente il PC",               stress: 10,  quality: -2,  image: "e_india.jpg" },
+  { name: "Vocale delirante di 7 minuti da moglie",                         stress: 15,  quality: -8,  image: "e_vocale_moglie.jpg" },
+  { name: "Moglie che urla via WhatsApp cose incomprensibili",              stress: 13,  quality: -10, image: "e_moglie_whatsapp.jpg" },
+  { name: "Telefonata da call-center albanese ti attiva abbonamento",       stress: 4,   quality: -4,  image: "e_callcenter.jpg" },
+  { name: "Cane del vicino ti morde il piede",                              stress: 8,   quality: -3,  image: "e_cane_morde.jpg" },
+  { name: "Jessico Calcetto annulla la partita del giovedi",                stress: 20,  quality: -10, image: "e_calcetto.jpg" },
+  { name: "Vanesso Padel annulla gli incontri del martedi sera",            stress: 16,  quality: -14, image: "e_padel.jpg" },
+  { name: "Tatiano Palestra annulla gli allenamenti del mercoledi",         stress: 18,  quality: -12, image: "e_palestra.jpg" },
+  { name: "Ti sei dimenticato del nostro anniversario...",                  stress: 18,  quality: -7,  image: "e_anniversario.jpg" },
+  { name: "68 notifiche dal gruppo mamme di scuola",                        stress: 11,  quality: -6,  image: "e_gruppo_mamme.jpg" },
+  { name: "Malware apre 87 popup e Windows si blocca",                      stress: 8,   quality: -3,  image: "e_malware.jpg" },
+  { name: "INPS ha perso 6 mesi di contributi",                             stress: 14,  quality: -6,  image: "e_inps.jpg" },
+  { name: "Abbonamento Netflix farlocco sgamato dalla Guardia di Finanza",  stress: 30,  quality: -15, image: "e_netflix_finanza.jpg" },
+  { name: "Mal di schiena improvviso ti mette KO",                          stress: 11,  quality: -5,  image: "e_schiena.jpg" },
+  { name: "Auto aziendale ti lascia a piedi nel mezzo del nulla",           stress: 10,  quality: -5,  image: "e_auto_aziendale.jpg" },
+  { name: "Cellulare aziendale cade nel WC",                                stress: 20,  quality: -12, image: "e_cellulare_wc.jpg" },
+  { name: "Macchinetta del caffè prende fuoco al 13esimo caffè",            stress: 10,  quality: -4,  image: "e_macchinetta.jpg" },
+  { name: "Idraulico vuole essere pagato in natura",                        stress: 25,  quality: -8,  image: "e_idraulico.jpg" },
+  { name: "Elettricista vuole essere pagato in nero",                       stress: 15,  quality: -4,  image: "e_elettricista.jpg" },
+  { name: "GTA 5 ha smesso di funzionare",                                  stress: 6,   quality: 10,  image: "e_gta5.jpg" },
+  { name: "Caffè cade copiosamente sul notebook aziendale",                 stress: 9,   quality: -8,  image: "e_caffe_notebook.jpg" },
+  { name: "Collega gnocca vuole parlarti in privato: grossi guai in vista", stress: 20,  quality: -10, image: "e_collega_gnocca.jpg" },
+  { name: "Email di phishing ti svuota il conto corrente bancario",         stress: 8,   quality: -2,  image: "e_phishing.jpg" },
+  { name: "Dimentichi la webcam accesa mentre eri in mutande",              stress: 12,  quality: -9,  image: "e_webcam_mutande.jpg" },
+  { name: "Vigili urbani ti caricano l'auto anche se parcheggiata bene",    stress: 12,  quality: -2,  image: "e_vigili.jpg" },
+  { name: "Parcometro scaduto e 39 euro di multa",                          stress: 10,  quality: -2,  image: "e_multa.jpg" },
+  { name: "Riunione in presenza (ed interlocutore con fiatella letale)",    stress: 10,  quality: -3,  image: "e_fiatella.jpg" },
+  { name: "Peperonata del giorno prima si ripropone durante colloquio",     stress: 8,   quality: -8,  image: "e_peperonata.jpg" },
+  { name: "Collega burlone ti imposta il mouse da mancini",                 stress: 4,   quality: -2,  image: "e_mouse_mancini.jpg" },
+  { name: "Authenticator urgente ma il cellulare è scarico",                stress: 7,   quality: -3,  image: "e_authenticator.jpg" },
+  { name: "Spazio su disco esaurito, il PC si blocca",                      stress: 11,  quality: -3,  image: "e_disco_pieno.jpg" },
+  { name: "Stampante di rete emette rumori sinistri ma non stampa",         stress: 9,   quality: -2,  image: "e_stampante.jpg" },
+  { name: "Toner giallo esaurito e stampa inesorabilmente bloccata",        stress: 4,   quality: -7,  image: "e_toner.jpg" },
+  { name: "Testimoni di Geova irrompono in casa tua",                       stress: 15,  quality: -8,  image: "e_testimoni.jpg" },
+  { name: "Finiti i crediti AI a metà sviluppo",                            stress: 11,  quality: -10, image: "e_ai_crediti.jpg" },
+  { name: "PIN sblocco dimenticato dopo serata altamente alcolica",         stress: 6,   quality: -4,  image: "e_pin_bagordi.jpg" },
+  { name: "Riconoscimento facciale si rifiuta di credere che sei tu",       stress: 4,   quality: -2,  image: "e_face_id.jpg" },
+  { name: "Il cliente ti richiede in presenza ma tu sei in Croazia",        stress: -5,  quality: -5,  image: "e_croazia.jpg" },
+  { name: "Collega burlone ti gira lo schermo",                             stress: 7,   quality: -1,  image: "e_schermo_girato.jpg" },
+  { name: "StackOverflow down in manutenzione",                             stress: 5,   quality: -4,  image: "e_stackoverflow.jpg" },
+  { name: "YouTube oggi non vuole proprio funzionare",                      stress: 4,   quality: 4,   image: "e_youtube.jpg" },
+  { name: "Azienda ti sgama in finta malattia",                             stress: 20,  quality: -7,  image: "e_finta_malattia.jpg" },
+  { name: "Ti rechi in ufficio il giorno della chiusura aziendale",         stress: 8,   quality: -5,  image: "e_chiusura.jpg" },
+  { name: "Google Chrome blocca l'estensione CORS",                         stress: 6,   quality: -3,  image: "e_cors.jpg" },
+  { name: "Email apericena con gruppo liceo",                               stress: -6,  quality: -4,  image: "e_apericena.jpg" },
+  { name: "Nuova collega gnocca nel team (ma tu lavori da remoto)",         stress: -5,  quality: -8,  image: "e_collega_remoto.jpg" },
+  { name: "Ex-azienda non ti paga il TFR",                                  stress: 14,  quality: -4,  image: "e_tfr.jpg" },
+  { name: "Azienda ti dimezza i buoni pasto causa smart working",           stress: 8,   quality: -5,  image: "e_buoni_pasto.jpg" },
+  { name: "Teams oggi non funziona",                                        stress: 7,   quality: -2,  image: "e_teams_ko.jpg" },
+  { name: "Ctrl-C Ctrl-V ha smesso di funzionare",                          stress: 6,   quality: -6,  image: "e_ctrlc.jpg" },
+  { name: "Internet Explorer crash inatteso",                               stress: 3,   quality: -2,  image: "e_ie_crash.jpg" },
+  { name: "Cambio password obbligatorio",                                   stress: 2,   quality: -1,  image: "e_password.jpg" },
+  { name: "Windows Update incasina di nuovo la scheda audio",               stress: 6,   quality: -3,  image: "e_audio_ko.jpg" },
+  { name: "Hai vinto una trasferta a Domodossola",                          stress: 18,  quality: -10, image: "e_domodossola.jpg" },
+  { name: "Promozione inaspettata dopo 16 anni da Junior!",                 stress: -30, quality: 20,  image: "e_promozione.jpg" },
+  { name: "Hai donato il sangue e puoi restare a casa!",                    stress: -15, quality: 5,   image: "e_sangue.jpg" },
+  { name: "Oggi è San Pancrazio: 4 ore di permesso obbligatorio!",          stress: -10, quality: 2,   image: "e_san_pancrazio.jpg" },
+  { name: "Oggi è San Cremenzio patrono degli sfruttati!",                  stress: -10, quality: 2,   image: "e_san_cremenzio.jpg" },
+  { name: "Collega senior 78enne finalmente va in pensione!",               stress: -15, quality: 4,   image: "e_pensione.jpg" },
+  { name: "Collega festeggia con dolcetti fatti in casa!",                  stress: -12, quality: 5,   image: "e_dolcetti.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 10€!",                     stress: -10, quality: 3,   image: "e_buono10.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 50€!",                     stress: -20, quality: 4,   image: "e_buono50.jpg" },
+  { name: "Benefit Aziendale: ricevi un buono da 150€!",                    stress: -30, quality: 5,   image: "e_buono150.jpg" },
+  { name: "Bonus Renzi da 47€ di nuovo in busta paga!",                     stress: -10, quality: 1,   image: "e_bonus_renzi.jpg" },
+  { name: "Uscita anticipata alle 17:00!",                                  stress: -20, quality: 3,   image: "e_uscita_anticipata.jpg" },
+  { name: "Dimissioni del collega bravo",                                   stress: 13,  quality: -8,  image: "e_dimissioni.jpg" },
+  { name: "Rotte chiuse verso i server",                                    stress: 5,   quality: -2,  image: "e_rotte_server.jpg" },
+  { name: "Dimenticato microfono aperto mentre canti a squarciagola",       stress: 14,  quality: -6,  image: "e_mic_acceso.jpg" },
+  { name: "Windows Explorer ha smesso di funzionare",                       stress: 4,   quality: -1,  image: "e_explorer_crash.jpg" },
+  { name: "Router con segnale Wi-fi disturbato",                            stress: 13,  quality: -3,  image: "e_wifi.jpg" },
+  { name: "Annullate ferie per problemi critici in produzione",             stress: 14,  quality: -6,  image: "e_ferie_annullate.jpg" },
+  { name: "Pipeline bloccata in Produzione",                                stress: 20,  quality: -10, image: "e_pipeline.jpg" },
+  { name: "Buttato dentro una call a sorpresa",                             stress: 18,  quality: -3,  image: "e_call_sorpresa.jpg" },
+  { name: "Pacco Shein di 4 taglie più piccolo e senza rimborso",           stress: 8,   quality: -1,  image: "e_shein.jpg" },
+  { name: "Yeeh! Sei il Numero Uno!",                                       stress: -20, quality: 10,  image: "e_numero_uno.jpg" },
+  { name: "Devi fare KT a nuova collega super-gnocca!",                     stress: -15, quality: 4,   image: "e_kt_gnocca.jpg" },
+  { name: "Mouse wireless ha la batteria scarica",                          stress: 5,   quality: -2,  image: "e_mouse_scarico.jpg" },
+  { name: "Cena improvvisa dai suoceri",                                    stress: 12,  quality: -2,  image: "e_suoceri.jpg" },
+  { name: "PC è fuori policy e viene bloccato immediatamente",              stress: 4,   quality: -4,  image: "e_pc_policy.jpg" },
+  { name: "Hai vinto uno sviluppetto carino",                               stress: 18,  quality: -10, image: "e_vinto_sviluppetto.jpg" },
+  { name: "Requisito finito nel dimenticatoio è diventato urgentissimo",    stress: 12,  quality: -3,  image: "e_requisito_urgente.jpg" },
+  { name: "GRM con tag non chiuso rompe tutto",                             stress: 7,   quality: -4,  image: "e_grm_tag.jpg" },
+  { name: "SOA down durante gli IT ed il cliente si incazza di brutto",     stress: 9,   quality: -2,  image: "e_soa_it.jpg" },
+  { name: "Griglia treni vuota per qualsiasi data",                         stress: 10,  quality: -5,  image: "e_treni.jpg" },
+  { name: "Popup 40enni vogliose in Team Presenting",                       stress: 17,  quality: -10, image: "e_popup_40enni.jpg" },  
+  { name: "I carnet si sono rotti in Produzione",                           stress: 10, quality: -4,  image: "e_carnet.jpg" },
+  { name: "Call alle 18:00 di venerdi prima delle ferie",                   stress: 14, quality: -4,  image: "e_call_venerdi.jpg" },
+  { name: "Rilascio anticipato di 3 giorni",                                stress: 16, quality: -18, image: "e_rilascio_anticipato.jpg" },
+];
+
+// ── Helpers flash barra ──
+function flashBar(id, dir) {
+  const wrap = document.getElementById(id + 'BarWrap');
+  const cls  = dir > 0 ? id+'-flash-up' : id+'-flash-down';
+  wrap.classList.remove(id+'-flash-up', id+'-flash-down');
+  void wrap.offsetWidth; //reflow per restart animation
+  wrap.classList.add(cls);
+  setTimeout(() => wrap.classList.remove(cls), 1000);
+}
+
+function spawnTask() {
+  const t = TASKS[Math.floor(Math.random() * TASKS.length)];
+  const ttl = 5000 + Math.random() * 5000;
+  const id = Date.now() + Math.random();
+  state.taskTTLMax[id] = ttl;
+  state.tasks.push({ ...t, id, progress: 0, ttl });
+}
+
+function triggerEvent() {
+  const e = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+  state.stress  += e.stress;
+  state.quality += e.quality;
+  flashBar('quality', e.quality);
+  flashBar('stress',  e.stress);
+  state.events.unshift({ ...e, expires: Date.now() + 8000 });
+  if (state.events.length > 3) state.events.pop();
+}
+
+function startTask(task) {
+  if (state.currentTask) return;
+  state.currentTask = task;
+  state.tasks = state.tasks.filter(t => t.id !== task.id);
+}
+
+function updateTasks(delta) {
+  if (state.currentTask) {
+    state.currentTask.progress += delta;
+    if (state.currentTask.progress >= state.currentTask.duration) {
+	  //task completato
+      state.stress        += state.currentTask.stress;
+      state.quality       += state.currentTask.quality;
+      state.chargeability += 5;
+      flashBar('quality', 1);
+      flashBar('stress', -1);
+      flashBar('charge', 1);
+      state.currentTask = null;
+    }
+  }
+
+  const expired = state.tasks.filter(t => t.ttl - delta <= 0);
+  expired.forEach(t => {
+    state.stress        += 10;
+    state.quality       -= 5;
+    state.chargeability -= 15;
+    flashBar('quality', -1);
+    flashBar('stress', +1);
+    flashBar('charge', -1);
+    delete state.taskTTLMax[t.id];
+  });
+  state.tasks = state.tasks
+    .map(t => ({ ...t, ttl: t.ttl - delta }))
+    .filter(t => t.ttl > 0);
+}
+
+function coffee()    { state.stress -= 10; flashBar('stress', -1); }
+function refactor()  { state.quality += 10; flashBar('quality', +1); }
+function ignore()    { state.stress -= 5; state.quality -= 5; flashBar('stress', -1); flashBar('quality', -1); }
+function cazzeggio() {
+  state.stress -= 15; state.quality -= 15; state.chargeability -= 15;
+  flashBar('stress', -1); flashBar('quality', -1); flashBar('charge', -1);
+}
+
+function clamp() {
+  state.stress        = Math.max(0, Math.min(100, state.stress));
+  state.quality       = Math.max(0, Math.min(100, state.quality));
+  state.chargeability = Math.max(0, Math.min(100, state.chargeability));
+}
+
+function checkGameOver() {
+  //stressa a 100 -> morto
+  if (state.stress >= 100) {
+    document.getElementById('gameOverMsg').innerText = '💀 SEI MORTO DI STRESS';
+    document.getElementById('gameOverSub').innerText = 'Lo sapevi che era una settimana corta?';
+    document.getElementById('gameOverScreen').classList.add('show');
+    state.gameOver = true;
+  }
+  //quality a zero -> licenziato
+  if (state.quality <= 0) {
+    document.getElementById('gameOverMsg').innerText = '🐛 LICENZIATO IN TRONCO';
+    document.getElementById('gameOverSub').innerText = 'Troppi bug in produzione... come sempre!';
+    document.getElementById('gameOverScreen').classList.add('show');
+    state.gameOver = true;
+  }
+  //charge a zero -> licenziato
+  if (state.chargeability <= 0) {
+    document.getElementById('gameOverMsg').innerText = '🛋️ LICENZIATO IN TRONCO';
+    document.getElementById('gameOverSub').innerText = 'Nullafacente, hai esagerato con il cazzeggio!';
+    document.getElementById('gameOverScreen').classList.add('show');
+    state.gameOver = true;
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  const clockEl = document.getElementById('clock');
+  if (clockEl) clockEl.innerText = `${hh}:${mm}:${ss}`;
+}
+
+// ── Render task card DOM node (riusato per evitare innerHTML su lista) ──
+function renderTaskNode(t) {
+  const el = document.createElement('div');
+  el.className = 'task' + (t.ttl < 3000 ? ' urgent' : '');
+  const seconds  = Math.max(0, Math.floor(t.ttl / 1000));
+  const duration = Math.floor(t.duration / 1000);
+  const maxTTL   = state.taskTTLMax[t.id] || 10000;
+  const ttlPerc  = Math.max(0, (t.ttl / maxTTL) * 100);
+  const ttlClass = t.ttl < 3000 ? 'low' : '';
+  const ttlColor = t.ttl < 3000 ? '#ff2d55' : t.ttl < 6000 ? '#ff8c00' : '#39ff14';
+
+  el.innerHTML =
+    buildBanner(t.image, false) +
+    `<div class="task-body">
+      <div class="task-name">${t.name}</div>
+      <div class="task-meta">
+        <span class="ttl ${ttlClass}">⏱ ~${duration}h</span>
+        <span class="ttl ${ttlClass}">⚠ ${seconds}s</span>
+      </div>
+      <div class="ttl-bar">
+        <div class="ttl-fill" style="width:${ttlPerc}%;background:${ttlColor}"></div>
+      </div>
+    </div>`;
+
+  el.onmousedown = () => startTask(t);
+  return el;
+}
+
+function render() {
+  // ── CHARGEABILITY BAR ──
+  const ch = state.chargeability;
+  const cf = document.getElementById('chargeFill');
+  cf.style.width      = ch + '%';
+  cf.style.background = ch > 25 ? '#00cfff' : '#ff2d55';
+  cf.style.boxShadow  = ch <= 25 ? '0 0 8px #ff2d55' : 'none';
+  document.getElementById('chargeVal').innerText = Math.round(ch);
+
+  // ── STRESS BAR ──
+  const sf = document.getElementById('stressFill');
+  sf.style.width      = state.stress + '%';
+  sf.style.background = state.stress < 25 ? '#39ff14' : '#ff2d55';
+  sf.style.boxShadow  = state.stress >= 75 ? '0 0 8px #ff2d55' : 'none';
+  document.getElementById('stressVal').innerText = Math.round(state.stress);
+
+  // ── QUALITY BAR ──
+  const qf = document.getElementById('qualityFill');
+  qf.style.width      = state.quality + '%';
+  qf.style.background = state.quality > 25 ? '#39ff14' : '#ff2d55';
+  qf.style.boxShadow  = state.quality <= 25 ? '0 0 8px #ff2d55' : 'none';
+  document.getElementById('qualityVal').innerText = Math.round(state.quality);
+
+  // ── CURRENT TASK ──
+  const currentTaskEl = document.getElementById('currentTask');
+  const progressEl    = document.getElementById('taskProgress');
+  if (state.currentTask) {
+    currentTaskEl.innerText = '▸ ' + state.currentTask.name;
+    progressEl.style.width  = ((state.currentTask.progress / state.currentTask.duration) * 100) + '%';
+  } else {
+    currentTaskEl.innerText = '[ IDLE — aspetto un requisito assurdo ]';
+    progressEl.style.width  = '0%';
+  }
+
+  // ── TASK LIST ──
+  const taskList = document.getElementById('taskList');
+  // Rebuild solo se il numero di task è cambiato o se i TTL ids sono diversi
+  const currentIds = Array.from(taskList.querySelectorAll('.task')).map(el => el.dataset.id);
+  const newIds     = state.tasks.map(t => String(t.id));
+  if (JSON.stringify(currentIds) !== JSON.stringify(newIds)) {
+    while (taskList.firstChild) taskList.removeChild(taskList.firstChild);
+    state.tasks.forEach(t => {
+      const node = renderTaskNode(t);
+      node.dataset.id = String(t.id);
+      taskList.appendChild(node);
+    });
+  } else {
+    // Aggiorna solo TTL bar e classi urgenza senza rifare il banner
+    const taskEls = taskList.querySelectorAll('.task');
+    state.tasks.forEach((t, i) => {
+      const el = taskEls[i];
+      if (!el) return;
+      const isUrgent = t.ttl < 3000;
+      el.classList.toggle('urgent', isUrgent);
+      const seconds   = Math.max(0, Math.floor(t.ttl / 1000));
+      const maxTTL    = state.taskTTLMax[t.id] || 10000;
+      const ttlPerc   = Math.max(0, (t.ttl / maxTTL) * 100);
+      const ttlColor  = t.ttl < 3000 ? '#ff2d55' : t.ttl < 6000 ? '#ff8c00' : '#39ff14';
+      const ttlClass  = isUrgent ? 'low' : '';
+      const ttlSpans  = el.querySelectorAll('.ttl');
+      if (ttlSpans[1]) ttlSpans[1].innerText = `⚠ ${seconds}s`;
+      if (ttlSpans[0]) ttlSpans[0].className = `ttl ${ttlClass}`;
+      if (ttlSpans[1]) ttlSpans[1].className = `ttl ${ttlClass}`;
+      const ttlFill = el.querySelector('.ttl-fill');
+      if (ttlFill) { ttlFill.style.width = ttlPerc + '%'; ttlFill.style.background = ttlColor; }
+      // Aggiorna gradient overlay urgente
+      const bannerBefore = el.querySelector('.card-banner-wrap');
+      if (bannerBefore) {
+        bannerBefore.style.setProperty('--banner-fade', isUrgent ? '#1f0a0a' : '#12121f');
+      }
+    });
+  }
+
+  // ── EVENT LIST ──
+  const eventList = document.getElementById('eventList');
+  const newHtml = state.events.map(e => {
+    const isBonus = e.stress < 0 || e.quality > 0;
+    return `<div class="event${isBonus ? ' bonus' : ''}" style="${isBonus ? 'border-left-color:#39ff14;background:#0a1a0a;border-color:#0a2a0a' : ''}">
+      ${buildBanner(e.image, isBonus)}
+      <div class="event-body">
+        <div class="event-name">${isBonus ? '✦' : '⚡'} ${e.name}</div>
+        <div class="event-meta">
+          <span class="${e.stress  > 0 ? 'neg' : 'pos'}">STRESS ${e.stress  > 0 ? '+' : ''}${e.stress}</span>
+          <span class="${e.quality < 0 ? 'neg' : 'pos'}">QUALITÀ ${e.quality > 0 ? '+' : ''}${e.quality}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Aggiorna il DOM solo se il contenuto è effettivamente diverso
+  if (eventList.innerHTML !== newHtml) eventList.innerHTML = newHtml;
+
+  
+  // ── CHARACTER ──
+  const char      = document.getElementById('character');
+  const badge     = document.getElementById('statusBadge');
+  const charImg   = document.getElementById('characterImg');
+  
+  for (const c of CHARACTERS) {
+    if (state.stress < c.threshold) {
+      char.innerText      = c.emoji;
+      badge.innerText     = c.status;
+      char.style.filter   = state.stress > 70
+        ? 'drop-shadow(0 0 20px rgba(255,45,85,0.5))'
+        : 'drop-shadow(0 0 20px rgba(57,255,20,0.3))';
+      if (charImg.dataset.current !== c.image) {
+        charImg.dataset.current = c.image;
+        charImg.style.display   = 'block';
+        charImg.src             = IMG_BASE + c.image;
+      }
+      break;
+    }
+  }
+}
+
+let last = 0, lastRender = 0;
+
+setInterval(updateClock, 1000);
+updateClock();
+
+function loop(ts) {
+  if (state.gameOver) return;
+  const delta = ts - last;
+  last = ts;
+
+  updateTasks(delta);
+  state.events = state.events.filter(e => Date.now() < e.expires);
+  if (Math.random() < 0.003) spawnTask();
+  if (Math.random() < 0.003 && state.events.length < 1) triggerEvent();
+
+  clamp();
+  checkGameOver();
+
+  if (ts - lastRender > 250) {
+    render();
+    lastRender = ts;
+  }
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
