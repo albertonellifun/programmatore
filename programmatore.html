@@ -426,7 +426,7 @@
   
   .character-portrait img {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
     display: block;
     transition: opacity 0.4s;
@@ -478,9 +478,10 @@
     margin-bottom: 10px;
     min-height: 28px;
     letter-spacing: 1px;
+	xxxwhite-space: nowrap;
   }
 
-  .progress-label {
+  #progress-label {
     font-size: var(--font-s);
     color: var(--dim);
     text-align: left;
@@ -489,7 +490,7 @@
     text-transform: uppercase;
   }
 
-  .progress.main-bar {
+  #progress-main-bar {
     height: 22px;
     border: 1px solid var(--border);
     border-radius: 0;
@@ -825,9 +826,9 @@
 	</div>
 
     <div class="task-display">
-      <div class="progress-label">▸ TASK IN CORSO</div>
+      <div id="progress-label">▸ TASK IN LAVORAZIONE</div>
       <div id="currentTask">Sono scarico...</div>
-      <div class="progress main-bar">
+      <div id="progress-main-bar">
         <div id="taskProgress" class="fill"></div>
       </div>
     </div>
@@ -863,13 +864,14 @@
 const IMG_BASE = './img/';
 
 const CHARACTERS = [
-  { threshold: 15,  emoji: '😊', status: 'RILASSATO',          image: 'char_rilassato.png' },
-  { threshold: 30,  emoji: '😐', status: 'QUASI OK',           image: 'char_quasiok.png' },
-  { threshold: 45,  emoji: '☹️', status: 'SOTTO STRESS',       image: 'char_stress.png' },
-  { threshold: 60,  emoji: '😔', status: 'SOFFERENTE',         image: 'char_sofferente.png' },
-  { threshold: 75,  emoji: '😤', status: 'AL LIMITE',          image: 'char_limite.png' },
-  { threshold: 90,  emoji: '🤬', status: 'COLLASSO IMMINENTE', image: 'char_collasso.png' },
-  { threshold: 101, emoji: '💀', status: 'RIPOSA IN PACE',     image: 'char_rip.png' },
+  { threshold: 20,  emoji: '😊', status: 'TUTTO TRANQUILLO... PER ORA',    image: 'char_0.jpg' },
+  { threshold: 30,  emoji: '😐', status: 'MI IMPEGNO E RISOLVO (FORSE)',   image: 'char_1.jpg' },
+  { threshold: 40,  emoji: '☹️', status: 'MA CHI HA SCRITTO STA ROBA?',    image: 'char_2.jpg' },
+  { threshold: 50,  emoji: '😱', status: 'CERVELLO IN BUFFERING...',       image: 'char_3.jpg' },
+  { threshold: 60,  emoji: '😵', status: 'AL LIMITE DELLA SOPPORTAZIONE',  image: 'char_4.jpg' },
+  { threshold: 70,  emoji: '😫', status: 'MORIREMO TUTTI!',                image: 'char_5.jpg' },
+  { threshold: 80,  emoji: '🤯', status: 'COLLASSO DEL SISTEMA IMMINENTE', image: 'char_6.jpg' },
+  { threshold: 90,  emoji: '💀', status: 'ADDIO MONDO CRUDELE!',           image: 'char_7.jpg' },
 ];
 
 // ── Helper: costruisce il banner HTML di una card ──
@@ -1038,7 +1040,7 @@ const EVENTS = [
   { name: "I carnet si sono rotti in Produzione",                            stress: 10,  quality: -4,  image: "e_carnet.jpg" },
   { name: "Call alle 18:00 di venerdi prima delle ferie",                    stress: 14,  quality: -4,  image: "e_call_venerdi.jpg" },
   { name: "Rilascio anticipato di 3 giorni",                                 stress: 16,  quality: -18, image: "e_rilascio_anticipato.jpg" },
-  { name: "Nuova collega ti funesta gli zebedei con la Dieta Macrobiotica",  stress: -15, quality: -4,  image: "e_macrobiotica.jpg" },
+  { name: "Nuova collega ti funesta gli zebedei con la Dieta Macrobiotica",  stress: 15,  quality: -4,  image: "e_macrobiotica.jpg" },
   { name: "Vinci un premio come Persona Peggio Vestita dell'Ufficio",        stress: -10, quality: -2,  image: "e_vestito.jpg" },
   { name: "Collega bastardo ti fotografa in un attimo di pausa dal lavoro",  stress: 10,  quality: -10, image: "e_dormire2.jpg" },
   { name: "Il capo ti becca mentre dormi al PC: alla prossima sei fuori!",   stress: 12,  quality: -10, image: "e_dormire.jpg" },
@@ -1233,12 +1235,18 @@ function render() {
   // ── CURRENT TASK ──
   const currentTaskEl = document.getElementById('currentTask');
   const progressEl    = document.getElementById('taskProgress');
+  const lab 		  = document.getElementById('progress-label');
+  const prg           = document.getElementById('progress-main-bar');
   if (state.currentTask) {
     currentTaskEl.innerText = '▸ ' + state.currentTask.name;
     progressEl.style.width  = ((state.currentTask.progress / state.currentTask.duration) * 100) + '%';
+	lab.style.visibility    = 'visible';
+	prg.style.visibility    = 'visible';
   } else {
-    currentTaskEl.innerText = '[ IDLE — aspetto un requisito assurdo ]';
-    progressEl.style.width  = '0%';
+    currentTaskEl.innerText = 'Sono scarico...';
+	progressEl.style.width  = '0%';
+	lab.style.visibility    = 'hidden';
+	prg.style.visibility    = 'hidden';
   }
 
   // ── TASK LIST ──
