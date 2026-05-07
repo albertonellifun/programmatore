@@ -753,6 +753,112 @@
     width: 100%;
   }
 }
+
+
+
+
+
+#modalOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  z-index: 9500;
+  align-items: center;
+  justify-content: center;
+  animation: modalFadeIn 0.2s ease;
+}
+#modalOverlay.show { display: flex; }
+
+@keyframes modalFadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+.modal-box {
+  background: #0d0d1e;
+  border: 2px solid var(--yellow);
+  border-top: 4px solid var(--yellow);
+  box-shadow: 0 0 40px rgba(255,230,0,0.25);
+  max-width: 420px;
+  width: 90%;
+  border-radius: 2px;
+  overflow: hidden;
+  animation: modalSlideIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes modalSlideIn {
+  from { transform: translateY(-30px) scale(0.95); opacity: 0; }
+  to   { transform: translateY(0)     scale(1);    opacity: 1; }
+}
+
+.modal-img-wrap {
+  width: 100%;
+  max-height: 200px;
+  overflow: hidden;
+  background: #0a0a18;
+  border-bottom: 1px solid #3a3a00;
+  padding: 4px;
+}
+
+.modal-img-wrap img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-pause-badge, .modal-title-badge {
+  font-family: 'VT323', monospace;
+  font-size: var(--font-m);
+  color: var(--orange);
+  border-bottom: 1px solid #3a3a00;
+  padding: 4px 12px;
+  letter-spacing: 2px;
+  background: #14140a;
+}
+
+.modal-pause-badge {
+  text-align: right;
+  animation: blink 1s infinite;
+}
+
+.modal-event-name {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--yellow);
+  padding: 14px 16px 10px;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #1a1a00;
+}
+
+.modal-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.modal-choice-btn {
+  font-family: 'VT323', monospace;
+  font-size: var(--font-l);
+  letter-spacing: 1px;
+  border: none;
+  border-top: 1px solid #1a1a00;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  background: transparent;
+  width: 100%;
+}
+
+.modal-btn-1 { color: var(--white); }
+.modal-btn-1:hover { color: var(--green);}
+
+.modal-btn-2 { color: var(--white); }
+.modal-btn-2:hover { color: var(--red);}
+
+.modal-choice-btn:active { opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -858,6 +964,22 @@
   <button id="restartBtn" onclick="location.reload()">▶ RIPROVA</button>
 </div>
 
+<!-- IMPREVISTI E PROBABILITA -->
+<div id="modalOverlay">
+  <div class="modal-box">
+	<div class="modal-title-badge">⚠️ IMPREVISTI & PROBABILITA'</div>
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="" onerror="this.parentElement.style.display='none'">
+    </div>
+    <div class="modal-event-name" id="modalEventName">—</div>
+    <div class="modal-choices">
+      <button class="modal-choice-btn modal-btn-1" onclick="resolveModal('btn1')"></button>
+      <button class="modal-choice-btn modal-btn-2" onclick="resolveModal('btn2')"></button>
+    </div>
+	<div class="modal-pause-badge">⏸ PAUSA — I TIMER SONO CONGELATI</div>
+  </div>
+</div>
+
 <script>
 
 // ── Cartella immagini (relativa all'HTML) ──
@@ -898,7 +1020,9 @@ const state = {
   currentTask: null,
   events: [],
   gameOver: false,
-  taskTTLMax: {}
+  taskTTLMax: {},
+  modalEvent: null,       //gestione modale
+  modalUsed: new Set(),   //gestione modale
 };
 
 // ── TASKS — aggiungi il campo image: 'nomefile.jpg' ──
@@ -937,6 +1061,7 @@ const TASKS = [
   { name: "Nuovo benefit per gli utenti con Senior Loyalty",      duration: 3000, stress: 12, quality: -2,  image: "t_loyalty.jpg" },
   { name: "Introdurre come metodo di pagamento il Baratto",       duration: 2000, stress: 10, quality: -1,  image: "t_baratto.jpg" },
   { name: "Nuovo requisito: porta un amico che paga per tutti",   duration: 3000, stress: 5,  quality: -3,  image: "t_polizia.jpg" },
+  { name: "Merge di BIG 2.0 da fare a mano con 827 conflitti",    duration: 5000, stress: 20, quality: -10, image: "t_merge.jpg" },
 ];
 
 // ── EVENTS — aggiungi il campo image: 'nomefile.jpg' ──
@@ -1047,6 +1172,136 @@ const EVENTS = [
   { name: "Ti parte un bestemmione in call col cliente a microfono aperto",  stress: 18,  quality: -10, image: "e_bestemmione.jpg" },
   { name: "L'ennesimo 'Sul mio PC funziona' scatena le urla del cliente",    stress: 15,  quality: -20, image: "e_mio_pc.jpg" },
   { name: "Un metallaro incontrato in strada ti spacca tutte le ossa - cit", stress: 20,  quality: -15, image: "e_metallaro.jpg" },
+];
+
+// popup
+const MODAL_EVENTS = [
+	{ 
+		name: "Il grande capo ti propone un mega-rilascio in notturna, ovviamente segnando solo 1h di straordinario", 
+		btn1: {label: "Sto cercando di smettere", stress: -10, charge: -10},
+		btn2: {label: "La notte è giovane, accetto volentieri", stress: 10, charge: 10},
+		image: "x_dormire.jpg",
+	},
+	{
+		name: "L'azienda cerca volontari per testare gli effetti della permanenza in ufficio anche domenica e festivi",
+		btn1: {label: "Domenica di solito vado a messa", stress: -10, charge: -10},
+		btn2: {label: "Accetto volentieri tanto sto divorziando", stress: 15, charge: 15},
+		image: "x_dottore.jpg",
+	},
+	{
+		name: "Il collega senior ti chiede di scaricare l'intero DB di produzione in un file Excel",
+		btn1: {label: "Scusa mi hanno revocato la licenza di Office", stress: -5, charge: -5},
+		btn2: {label: "Ottima idea, lo faccio subitaneamente", stress: 12, charge: 8},
+		image: "x_excel.jpg",
+	},
+	{
+		name: "Riunione veloce di 5 minuti fissata alle 17:55 di venerdì. Si parla del Logo da spostare di 2px",
+		btn1: {label: "Faccio finta di aver perso il treno", stress: -10, charge: -10},
+		btn2: {label: "Resto fino alle 19:40 ad annuire compulsivamente in webcam", stress: 20, charge: 15},
+		image: "x_pignolo.jpg",
+	},
+	{
+		name: "L'ufficio acquisti ha sostituito la macchina del caffè con una a cialde di cartone riciclato al gusto fieno",
+		btn1: {label: "Mi porto il thermos da casa", stress: -5, charge: -5},
+		btn2: {label: "Plaudo l'iniziativa aggiungendo che è anche Eco-Friendly", stress: 10, charge: 5},
+		image: "x_caffe_fieno.jpg",
+	},
+	{
+		name: "Team Building sperduti nella foresta amazzonica senza cellulari e con il responsabile delle HR che suona l'ukulele",
+		btn1: {label: "Certificato medico per allergia al legno", stress: -15, charge: -5},
+		btn2: {label: "Partecipo con entusiasmo fingendomi un novello Indiana Jones", stress: 25, charge: 10},
+		image: "x_foresta.jpg",
+	},
+	{
+		name: "Ti accorgi che sei in 'Reply All' in una mail dove criticavi pesantemente il nuovo layout scelto dal cliente",
+		btn1: {label: "Mi licenzio prima che leggano", stress: 30, charge: -40},
+		btn2: {label: "E' stato un esperimento di social engineering", stress: 15, charge: -10},
+		image: "x_email.jpg",
+	},
+	{
+		name: "Il cliente necessita di un piccolo cambiamento last-minute che però richiederebbe la riscrittura totale dei Portali Web",
+		btn1: {label: "Non ci sono i tempi tecnici", stress: -10, charge: -10},
+		btn2: {label: "Amo questo lavoro", stress: 18, charge: 15},
+		image: "x_lente.jpg",
+	},
+	{
+		name: "Il PM ti chiede una stima per un task mai visto prima. Rispondi '5 giorni' e lui lo segna come '5 ore'",
+		btn1: {label: "Applico la legge di Murphy e sparisco tipo ninja", stress: -5, charge: -10},
+		btn2: {label: "Lavoro come se non ci fosse un domani per rispettare i tempi", stress: 25, charge: 20},
+		image: "x_doc_brown.jpg",
+	},
+	{
+		name: "Arriva un nuovo stagista che sa usare solo il 'copia-incolla' da ChatGPT per fixare i bug critici",
+		btn1: {label: "Lo chiudo nello stanzino delle scope", stress: -15, charge: -5, quality: 10},
+		btn2: {label: "Lo lascio fare e preparo i popcorn", stress: -20, charge: 5, quality: -10},
+		image: "x_gpt.jpg",
+	},
+	{
+		name: "L'azienda annuncia che i bonus di produzione verranno erogati in 'gratitudine e pacche sulle spalle'",
+		btn1: {label: "Chiedo se accettano la gratitudine alla cassa del supermercato", stress: 10, charge: -20},
+		btn2: {label: "Ringrazio commosso per il calore umano dimostrato", stress: 15, charge: 5},
+		image: "x_pacca.jpg",
+	},
+	{
+		name: "Ti viene chiesto di partecipare ad un video promozionale aziendale nel quale dovrai ballare",
+		btn1: {label: "Simulo un colpo della strega fulminante", stress: -15, charge: -10},
+		btn2: {label: "Divento lo zimbello dell'ufficio per i prossimi 5 anni", stress: 35, charge: 20},
+		image: "x_john_travolta.jpg",
+	},
+	{
+		name: "Il CTO decide di migrare l'intera infrastruttura su un server che tiene in garage tra i barattoli di conserva",
+		btn1: {label: "Aggiorno il curriculum su LinkedIn in incognito", stress: -5, charge: -15},
+		btn2: {label: "Confido nella protezione dei pomodori pelati Cirio", stress: 20, charge: 10},
+		image: "x_server.jpg",
+	},
+	{
+		name: "Il climatizzatore in ufficio è bloccato su 'Polo Nord' a luglio, ma il regolamento vieta i maglioni",
+		btn1: {label: "Accendo un piccolo falò con i manuali tecnici", stress: -10, charge: -5},
+		btn2: {label: "Sviluppo l'immunità al congelamento tramite supposte di Paraflu Fiat", stress: 15, charge: 10},
+		image: "x_pinguino.jpg",
+	},
+	{
+		name: "Il cliente ti chiama di sabato alle 14:00 per dirti che 'non riesce a loggarsi' dal nuovo PC",
+		btn1: {label: "Fingo di essere in galleria e che la linea stia cadendo", stress: -10, charge: -10},
+		btn2: {label: "Gli spiego il problema con la pazienza di un monaco tibetano", stress: 20, charge: 15},
+		image: "x_barbeque.jpg",
+	},
+	{
+		name: "Il CEO decide che da oggi si comunica solo tramite l'app sperimentale creata da suo nipote di 12 anni",
+		btn1: {label: "Purtroppo il mio Lumia 535 non è compatibile", stress: -5, charge: -10},
+		btn2: {label: "Passo la giornata a debuggare l'app invece di lavorare", stress: 25, charge: 10},
+		image: "x_bimbo_pc.jpg",
+	},
+	{
+		name: "Scatta l'allarme antincendio durante la demo più importante dell'anno. Non è un'esercitazione: è il tostapane delle HR",
+		btn1: {label: "Esco con calma portandomi via la sedia ergonomica in pelle umana", stress: -15, charge: -10},
+		btn2: {label: "Continuo la demo tra i fumi tossici e le urla dei presenti", stress: 30, charge: 20},
+		image: "x_ufficio_fiamme.jpg",
+	},
+	{
+		name: "Da domani la tua postazione sarà nello stanzino insieme al server che scalda come una stufa a carbone",
+		btn1: {label: "Finalmente mangerò la lasagna della mamma ben calda", stress: 15, charge: 5},
+		btn2: {label: "Ringrazio sentitamente perchè ho sempre sofferto il freddo", stress: 5, charge: 15},
+		image: "x_server_fuoco.jpg",
+	},
+	{
+		name: "Il Senior Architect decide di riscrivere tutto in un linguaggio di programmazione nato ieri mattina e non documentato",
+		btn1: {label: "Metto un 'Like' al post di dimissioni di un collega", stress: -10, charge: -10},
+		btn2: {label: "Cerco tutorial e documentazioni sul forum in lingua uzbeka", stress: 25, charge: 20},
+		image: "x_russo.jpg",
+	},
+	{
+		name: "Un bug critico in produzione viene risolto casualmente riavviando il router della mensa. Nessuno sa perché",
+		btn1: {label: "Non indago e vado a bermi una birra doppio malto", stress: -30, charge: -15},
+		btn2: {label: "Scrivo 40 pagine di documentazione tecnica sull'accaduto", stress: 15, charge: 15},
+		image: "x_cuoca.jpg",
+	},
+	{
+		name: "Il nuovo consulente Agile propone di fare gli Stand-up Meeting restando in equilibrio su una gamba sola",
+		btn1: {label: "Dico di avere un problema di labirintite cronica", stress: -10, charge: -5},
+		btn2: {label: "Divento un fenicottero del project management", stress: 20, charge: 10},
+		image: "x_yoga.jpg",
+	}
 ];
 
 // ── Helpers flash barra ──
@@ -1192,6 +1447,41 @@ function renderTaskNode(t) {
 
   el.onmousedown = () => startTask(t);
   return el;
+}
+
+
+//MODAL Popup
+function showModal(ev) {
+  const wrap = document.getElementById('modalImg').parentElement;
+  wrap.style.display = '';                                        // ← ripristina
+  document.getElementById('modalImg').src               = IMG_BASE + ev.image;
+  document.getElementById('modalEventName').textContent = ev.name;
+  document.querySelector('.modal-btn-1').textContent    = ev.btn1.label;
+  document.querySelector('.modal-btn-2').textContent    = ev.btn2.label;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function resolveModal(choice) {
+  const ev    = state.modalEvent;
+  if (!ev) return;
+  const delta = ev[choice]; // ev.btn1 o ev.btn2
+  if (delta.stress  !== undefined) { state.stress        += delta.stress;  flashBar('stress',  delta.stress);  }
+  if (delta.quality !== undefined) { state.quality       += delta.quality; flashBar('quality', delta.quality); }
+  if (delta.charge  !== undefined) { state.chargeability += delta.charge;  flashBar('charge',  delta.charge);  }
+  state.modalEvent = null;
+  document.getElementById('modalOverlay').classList.remove('show');
+  clamp();
+  checkGameOver();
+}
+
+function triggerModalEvent() {
+  if (state.modalEvent) return;
+  const available = MODAL_EVENTS.filter(e => !state.modalUsed.has(e.name));
+  if (available.length === 0) return;
+  const ev = available[Math.floor(Math.random() * available.length)];
+  state.modalUsed.add(ev.name);
+  state.modalEvent = ev;
+  showModal(ev);
 }
 
 function render() {
@@ -1342,13 +1632,19 @@ updateClock();
 
 function loop(ts) {
   if (state.gameOver) return;
-  const delta = ts - last;
-  last = ts;
+  const raw   = ts - last;
+  last        = ts;
+
+  const delta = state.modalEvent ? 0 : raw;  // pausa TTL se modale aperto
 
   updateTasks(delta);
   state.events = state.events.filter(e => Date.now() < e.expires);
-  if (Math.random() < 0.003 && state.tasks.length < 3) spawnTask();
-  if (Math.random() < 0.003 && state.events.length < 2) triggerEvent();
+
+  if (!state.modalEvent) {
+    if (Math.random() < 0.003 && state.tasks.length < 3) spawnTask();
+    if (Math.random() < 0.003 && state.events.length < 2) triggerEvent();
+    if (Math.random() < 0.0005) triggerModalEvent();  //trigger modal popup
+  }
 
   clamp();
   checkGameOver();
