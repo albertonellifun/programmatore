@@ -1093,6 +1093,7 @@ const TASKS = [
   { name: "Fix bug che appare solo in luna piena su Safari",      duration: 3000, stress: 9,  quality: -7,  image: "t_fix_safari.jpg" },
   { name: "Riunione per capire perché c'è una riunione",          duration: 2000, stress: 7,  quality: -2,  image: "t_perche.jpg" },
   { name: "Sistemare codice legacy scritto nel 2008",             duration: 4000, stress: 11, quality: -8,  image: "t_codice_legacy.jpg" },
+  { name: "Aggiungere come metodo di pagamento i soldi del monopoli", duration: 4000, stress: 10, quality: -8,  image: "t_monopoli.jpg" },
 ];
 
 // ── EVENTS — aggiungi il campo image: 'nomefile.jpg' ──
@@ -1102,6 +1103,7 @@ const EVENTS = [
   { name: "Windows Update obbligatorio",                                     stress: 3,   quality: -3,  image: "e_windows_update.jpg" },
   { name: "Microsoft Antivirus ti blocca il PC",                             stress: 6,   quality: -3,  image: "e_antivirus.jpg" },
   { name: "Windows estrae a sorte un problema sconosciuto",                  stress: 9,   quality: -4,  image: "e_windows.jpg" },
+  { name: "Windows autonomamente decide di andare in BSOD e morirci",        stress: 9,   quality: -4,  image: "e_bsod.jpg" },
   { name: "Le carte Nexi di test non funzionano",                            stress: 12,  quality: -2,  image: "e_nexi.jpg" },
   { name: "Tutti i pagamenti Nexi vanno in Declined",                        stress: 12,  quality: -2,  image: "e_nexi.jpg" },
   { name: "Nuova VPN è inesorabilmente down",                                stress: 10,  quality: -8,  image: "e_vpn_down.jpg" },
@@ -1217,7 +1219,19 @@ const EVENTS = [
   { name: "Il capo ti becca mentre dormi al PC: alla prossima sei fuori!",   stress: 12,  quality: -10, image: "e_dormire.jpg" },
   { name: "Ti parte un bestemmione in call col cliente a microfono aperto",  stress: 14,  quality: -10, image: "e_bestemmione.jpg" },
   { name: "L'ennesimo 'Sul mio PC funziona' scatena le urla del cliente",    stress: 11,  quality: -20, image: "e_mio_pc.jpg" },
-  { name: "Un metallaro incontrato in strada ti spacca tutte le ossa - cit", stress: 10,  quality: -15, image: "e_metallaro.jpg" },
+  { name: "Casa vista mare prenotata da mesi è in realtà una roulotte vista autogrill",  stress: 15,  quality: -10, image: "e_casa_vacanze.jpg" },
+  { name: "Tua moglie da alla luce 4 gemelli: tu si che sei un vero bomber!",            stress: 15,  quality: -10, image: "e_4_gemelli.jpg" },
+  { name: "Dopo l'ennesimo bug in produzione ricevi una lettera minatoria dal cliente",  stress: 12,  quality: -10, image: "e_lettera_anonima.jpg" },
+  { name: "Il cliente chiede un incontro dopo alcuni disservizi avvenuti in produzione", stress: 12,  quality: -10, image: "e_accetta.jpg" },
+  { name: "Collega studiato ti fa investire tutti i tuoi risparmi in ShitCoin",          stress: 15,  quality: -10, image: "e_borsa.jpg" },
+  { name: "Cliente travestito da prete promette l'inferno a chi non chiude tutti i bug", stress: 10,  quality: -10, image: "e_finto_prete.jpg" },
+  { name: "Cliente assolda uno sciamano per scacciare gli spiriti maligni dai server",   stress: 10,  quality: -10, image: "e_sciamano.jpg" },
+  { name: "Capo fa rito Voodoo per sbloccare la pipeline: ora la tua anima è dannata",   stress: 10,  quality: -10, image: "e_voodoo.jpg" },
+  { name: "Sessione OuiJa per fixare bug: funziona, ma ora il mouse si muove da solo",   stress: 10,  quality: -10, image: "e_ouija.jpg" },
+  { name: "Ti scappa una risata davanti al Cliente iracondo per i bug: sei spacciato",   stress: 15,  quality: -15, image: "e_nome_rosa.jpg" }, 
+  { name: "Battuta sessista fa incazzare a morte la cliente: sei praticamente fuori",    stress: 15,  quality: -15, image: "e_incazzata.jpg" }, 
+  { name: "Urti un metallaro per sbaglio: ora il tuo scheletro suona come una maracas",  stress: 10,  quality: -15, image: "e_metallaro.jpg" },
+  { name: "Un metallaro incontrato in strada ti spacca tutte le ossa - cit",             stress: 10,  quality: -15, image: "e_metallaro.jpg" },
 ];
 
 // popup
