@@ -1223,6 +1223,7 @@ const EVENTS = [
   { name: "Tua moglie da alla luce 4 gemelli: tu si che sei un vero bomber!",            stress: 15,  quality: -10, image: "e_4_gemelli.jpg" },
   { name: "Dopo l'ennesimo bug in produzione ricevi una lettera minatoria dal cliente",  stress: 12,  quality: -10, image: "e_lettera_anonima.jpg" },
   { name: "Il cliente chiede un incontro dopo alcuni disservizi avvenuti in produzione", stress: 12,  quality: -10, image: "e_accetta.jpg" },
+  { name: "Cliente ricorre a Santone Indiano per sistemare tutti i bug di produzione",   stress: 12,  quality: -10, image: "e_santone.jpg" },
   { name: "Collega studiato ti fa investire tutti i tuoi risparmi in ShitCoin",          stress: 15,  quality: -10, image: "e_borsa.jpg" },
   { name: "Cliente travestito da prete promette l'inferno a chi non chiude tutti i bug", stress: 10,  quality: -10, image: "e_finto_prete.jpg" },
   { name: "Cliente assolda uno sciamano per scacciare gli spiriti maligni dai server",   stress: 10,  quality: -10, image: "e_sciamano.jpg" },
@@ -1428,6 +1429,31 @@ const MODAL_EVENTS = [
 		btn2: {label: "Propongo di scrivere i task su post-it attaccati al monitor del capo", stress: -10, charge: -5},
 		image: "x_chiavetta.jpg",
 	},	
+	{ 
+		name: "Il nuovo CEO ha restaurato il feudalesimo: sei dichiarato servo della gleba e le udienze sono concesse solo previo pagamento della decima", 
+		btn1: {label: "Provo a barattare un  con due sacchi di farina di farro", stress: 25, charge: -10},
+		btn2: {label: "Accetto il mio destino e inizio a zappare la moquette", stress: 15, charge: 10},
+		image: "x_servo_gleba.jpg",
+	},
+	{ 
+		name: "Il nuovo CTO ha sostituito le sedie ergonomiche con panche di legno e catene. Ora l'open space è una galea e il PM batte il tempo sul tamburo", 
+		btn1: {label: "Mi offro come rematore di riserva pur di schivare le call", stress: -10, charge: -5},
+		btn2: {label: "Remo con più foga possibile sperando di essere promosso prima che muoia", stress: 20, charge: 20},
+		image: "x_galea.jpg",
+	},
+	{ 
+		name: "L'azienda ha dismesso i server, ora il codice viene compilato a mano da te e altri 50 schiavi incatenati che incidono 0 e 1 su tavolette d'argilla", 
+		btn1: {label: "Introduco errori di proposito perchè preferisco il cuneiforme antico", stress: 15, charge: -10},
+		btn2: {label: "Incido bit meglio del compilatore nativo per non finire in pasto ai leoni", stress: 30, charge: 25},
+		image: "x_cuneiforme.jpg",
+	},
+	{ 
+		name: "Il nuovo CEO ha deciso di utilizzare una portantina d'oro sorretta da te e dai tuoi colleghi per recarsi a prendere il treno", 
+		btn1: {label: "Simulo un tracollo fisico e mi lascio calpestare dalla folla", stress: -10, charge: -20},
+		btn2: {label: "Grido 'Fate Largo A Sua Eccellenza!' mentre mi si lussano le scapole", stress: 20, charge: 20},
+		image: "x_portantina.jpg",
+	},
+	
 ];
 
 // ── Helpers flash barra ──
